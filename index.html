@@ -664,6 +664,62 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Currency Converter -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCurrencyConverter()">
+                    <div class="feature-icon bg-gradient-to-br from-yellow-100 to-yellow-50 text-yellow-600">
+                        <i class="fas fa-exchange-alt text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Currency Converter</h3>
+                    <p class="text-gray-600 text-center mb-4">Convert currencies in real-time. Know exactly how much you're spending in your home currency.</p>
+                    <div class="text-center">
+                        <button class="text-yellow-600 hover:text-yellow-800 font-medium text-sm inline-flex items-center">
+                            Convert Now <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cultural Etiquette -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCulturalEtiquette()">
+                    <div class="feature-icon bg-gradient-to-br from-orange-100 to-orange-50 text-orange-600">
+                        <i class="fas fa-handshake text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Cultural Etiquette</h3>
+                    <p class="text-gray-600 text-center mb-4">Learn do's and don'ts, local customs, and cultural tips to respect Egyptian traditions.</p>
+                    <div class="text-center">
+                        <button class="text-orange-600 hover:text-orange-800 font-medium text-sm inline-flex items-center">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Packing List -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showPackingList()">
+                    <div class="feature-icon bg-gradient-to-br from-teal-100 to-teal-50 text-teal-600">
+                        <i class="fas fa-suitcase text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Packing List Generator</h3>
+                    <p class="text-gray-600 text-center mb-4">Get a personalized packing list based on your travel dates, destinations, and activities.</p>
+                    <div class="text-center">
+                        <button class="text-teal-600 hover:text-teal-800 font-medium text-sm inline-flex items-center">
+                            Generate List <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Photo Spots -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showPhotoSpots()">
+                    <div class="feature-icon bg-gradient-to-br from-pink-100 to-pink-50 text-pink-600">
+                        <i class="fas fa-camera text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Best Photo Spots</h3>
+                    <p class="text-gray-600 text-center mb-4">Discover the most Instagram-worthy locations and get tips for the perfect shot.</p>
+                    <div class="text-center">
+                        <button class="text-pink-600 hover:text-pink-800 font-medium text-sm inline-flex items-center">
+                            Explore Spots <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -3073,10 +3129,33 @@
         }
         
         function hideModal(modalId) {
-            const modal = document.getElementById(modalId + 'Modal');
+            // Handle different modal types
+            const modalTypes = {
+                'currency': 'currencyModal',
+                'etiquette': 'etiquetteModal',
+                'packing': 'packingModal',
+                'photoSpots': 'photoSpotsModal',
+                'card': 'cardModal',
+                'aiChatbot': 'aiChatbotModal',
+                'itinerary': 'itineraryModal',
+                'map': 'mapModal',
+                'booking': 'bookingModal',
+                'cruise': 'cruiseModal'
+            };
+
+            const modalIdToUse = modalTypes[modalId] || (modalId + 'Modal');
+            const modal = document.getElementById(modalIdToUse);
+            
             if (modal) {
-                modal.classList.remove('show');
-                document.body.style.overflow = 'auto';
+                modal.remove();
+                document.body.style.overflow = '';
+            } else {
+                // Fallback for old format
+                const oldModal = document.getElementById(modalId + 'Modal');
+                if (oldModal) {
+                    oldModal.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                }
             }
         }
         
@@ -3354,6 +3433,82 @@
                 }
             } else if (type === 'cruise') {
                 const modal = document.getElementById('cruiseModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'currency') {
+                const modal = document.getElementById('currencyModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'etiquette') {
+                const modal = document.getElementById('etiquetteModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'packing') {
+                const modal = document.getElementById('packingModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'photoSpots') {
+                const modal = document.getElementById('photoSpotsModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'checklist') {
+                const modal = document.getElementById('checklistModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'phrases') {
+                const modal = document.getElementById('phrasesModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'tips') {
+                const modal = document.getElementById('tipsModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'packing') {
+                const modal = document.getElementById('packingModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'photoSpots') {
+                const modal = document.getElementById('photoSpotsModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'checklist') {
+                const modal = document.getElementById('checklistModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'phrases') {
+                const modal = document.getElementById('phrasesModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'tips') {
+                const modal = document.getElementById('tipsModal');
                 if (modal) {
                     modal.remove();
                     document.body.style.overflow = '';
