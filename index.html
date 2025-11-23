@@ -1,0 +1,3485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Egypt Tour Guide - Project Preview</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts - Egyptian Themed -->
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus+SC&family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+Egyptian+Hieroglyphs&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    
+        /* Base Styles */
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+            overflow: auto;
+        }
+        
+        body {
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        main {
+            flex: 1 0 auto;
+            width: 100%;
+            position: relative;
+        }
+        
+        /* Ensure all sections have proper spacing */
+        section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Egyptian Hieroglyphic Patterns */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .hieroglyphic-bg {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><text x="10" y="30" font-family="Noto Sans Egyptian Hieroglyphs" font-size="20" fill="%23d4af37">𓂀</text><text x="70" y="80" font-family="Noto Sans Egyptian Hieroglyphs" font-size="25" fill="%23a67c00">𓃭</text><text x="40" y="60" font-family="Noto Sans Egyptian Hieroglyphs" font-size="18" fill="%23d4af37">𓅓</text><text x="80" y="30" font-family="Noto Sans Egyptian Hieroglyphs" font-size="22" fill="%23a67c00">𓆣</text><text x="20" y="90" font-family="Noto Sans Egyptian Hieroglyphs" font-size="20" fill="%23d4af37">𓅭</text><text x="50" y="50" font-family="Noto Sans Egyptian Hieroglyphs" font-size="15" fill="%23a67c00" opacity="0.7">𓆎</text><text x="90" y="20" font-family="Noto Sans Egyptian Hieroglyphs" font-size="18" fill="%23d4af37" opacity="0.7">𓂋</text></svg>');
+            opacity: 0.05;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hieroglyphic-pattern {
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h100v100H0z" fill="none"/><path d="M20 20l60 60M20 80l60-60" stroke="%23d4af37" stroke-width="0.5" opacity="0.1"/><text x="10" y="25" font-family="Noto Sans Egyptian Hieroglyphs" font-size="8" fill="%23d4af37" opacity="0.2">𓂀</text><text x="30" y="45" font-family="Noto Sans Egyptian Hieroglyphs" font-size="8" fill="%23a67c00" opacity="0.2">𓃭</text><text x="50" y="65" font-family="Noto Sans Egyptian Hieroglyphs" font-size="8" fill="%23d4af37" opacity="0.2">𓅓</text><text x="70" y="85" font-family="Noto Sans Egyptian Hieroglyphs" font-size="8" fill="%23a67c00" opacity="0.2">𓆣</text></svg>');
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .floating-2 {
+            animation: float 8s ease-in-out infinite;
+            animation-delay: 1s;
+            transition: all 0.3s ease;
+        }
+
+        .floating-3 {
+            animation: float 10s ease-in-out infinite;
+            animation-delay: 2s;
+            transition: all 0.3s ease;
+        }
+
+        .hieroglyph {
+            position: absolute;
+            font-family: 'Noto Sans Egyptian Hieroglyphs', serif;
+            color: rgba(212, 175, 55, 0.2);
+            pointer-events: none;
+            z-index: 0;
+            transition: all 0.5s ease;
+        }
+
+        .hieroglyph:hover {
+            color: rgba(212, 175, 55, 0.4);
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary: #f59e0b;
+        }
+        
+        /* Typography */
+        .egyptian-heading {
+            font-family: 'Cinzel Decorative', 'Marcellus SC', serif;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .egyptian-subheading {
+            font-family: 'Philosopher', sans-serif;
+            font-weight: 400;
+        }
+
+        .hieroglyphic-decoration {
+            font-family: 'Noto Sans Egyptian Hieroglyphs', serif;
+            font-size: 1.5rem;
+            line-height: 1;
+            display: inline-block;
+            margin: 0 0.5rem;
+            transform: translateY(5px);
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #d4af37, #f7d070);
+            border-radius: 3px;
+        }
+        
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1503177119275-34d4d4faeebd?w=1950&h=1200&fit=crop') center/cover;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        .gradient-bg > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .mockup-container {
+            position: relative;
+            margin: 2rem 0;
+            perspective: 1000px;
+        }
+        
+        .mockup-phone {
+            width: 280px;
+            height: 580px;
+            background: #fff;
+            border-radius: 40px;
+            padding: 15px;
+            position: relative;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: rotateY(-10deg) rotateX(5deg);
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        
+        .mockup-phone:hover {
+            transform: rotateY(0) rotateX(0);
+        }
+        
+        .mockup-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .mockup-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .mockup-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 30px;
+            background: #000;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+        
+        .mockup-buttons {
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .mockup-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+        
+        .mockup-btn:hover {
+            transform: translateX(5px);
+            background: var(--secondary);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            border: none;
+            outline: none;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 180px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary);
+            z-index: 1;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 25px;
+            width: 1px;
+            height: calc(100% - 10px);
+            background: #e5e7eb;
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        /* Enhanced Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+
+        /* Smooth transitions for interactive elements */
+        a, button {
+            transition: all 0.3s ease;
+        }
+
+        /* Enhanced card hover effects */
+        .card-hover:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Loading animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Scroll reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    <!-- Hieroglyphic Background Elements -->
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 opacity-5">
+        <div class="hieroglyphic-bg"></div>
+    </div>
+
+    <!-- Floating Decorative Elements -->
+    <div class="fixed top-20 left-10 text-4xl text-gold-400 opacity-10 floating">𓃭</div>
+    <div class="fixed bottom-20 right-10 text-5xl text-gold-400 opacity-10 floating-2">𓂀</div>
+    <div class="fixed top-1/2 left-1/4 text-6xl text-gold-400 opacity-10 floating-3">𓆣</div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-20 backdrop-blur-sm bg-opacity-95 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800 cursor-pointer" onclick="scrollToSection('hero')">
+                <span class="text-blue-600 egyptian-heading">Egypt</span> <span class="egyptian-heading">Guide</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="text-gray-700 hover:text-blue-600 transition font-medium relative group">
+                    Features
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#destinations" class="text-gray-700 hover:text-blue-600 transition font-medium relative group">
+                    Destinations
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#experiences" class="text-gray-700 hover:text-blue-600 transition font-medium relative group">
+                    Experiences
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#contact" class="text-gray-700 hover:text-blue-600 transition font-medium relative group">
+                    Contact
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </div>
+            <button class="md:hidden text-gray-700 hover:text-blue-600 transition" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars text-2xl" id="menuIcon"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden bg-white border-t border-gray-200" id="mobileMenu">
+            <div class="container mx-auto px-6 py-4 space-y-4">
+                <a href="#features" class="block text-gray-700 hover:text-blue-600 transition font-medium py-2" onclick="toggleMobileMenu()">Features</a>
+                <a href="#destinations" class="block text-gray-700 hover:text-blue-600 transition font-medium py-2" onclick="toggleMobileMenu()">Destinations</a>
+                <a href="#experiences" class="block text-gray-700 hover:text-blue-600 transition font-medium py-2" onclick="toggleMobileMenu()">Experiences</a>
+                <a href="#contact" class="block text-gray-700 hover:text-blue-600 transition font-medium py-2" onclick="toggleMobileMenu()">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero" class="gradient-bg text-white py-20 relative overflow-hidden mt-16">
+        <div class="absolute inset-0">
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="absolute inset-0" style="background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.7) 100%);"></div>
+        </div>
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in egyptian-heading">
+                <span class="hieroglyphic-decoration">𓃭</span>
+                Smart Egypt Tour Guide
+                <span class="hieroglyphic-decoration">𓃭</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90 leading-relaxed">Discover Egypt like never before with AI-powered personalized travel experiences</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                <button onclick="showModal('demo')" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                    <i class="fas fa-play-circle"></i>
+                    Watch Demo
+                </button>
+                <button onclick="scrollToSection('features')" class="bg-transparent hover:bg-white hover:bg-opacity-10 border-2 border-white text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                    <i class="fas fa-star"></i>
+                    Explore Features
+                </button>
+            </div>
+            
+            <!-- Mockup Phone -->
+            <div class="mockup-container">
+                <div class="mockup-phone">
+                    <div class="mockup-notch"></div>
+                    <div class="mockup-screen">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1000&h=2000&fit=crop" alt="Pharaoh King">
+                    </div>
+                </div>
+                <div class="mockup-buttons">
+                    <button class="mockup-btn" onclick="showAIChatbot()" title="AI Assistant">
+                        <i class="fas fa-robot"></i>
+                    </button>
+                    <button class="mockup-btn" onclick="showCardModal('interactive-map')" title="Interactive Map">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </button>
+                    <button class="mockup-btn" onclick="showItineraryGenerator()" title="AI Itinerary">
+                        <i class="fas fa-home"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Animated Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div class="w-8 h-12 border-4 border-white rounded-full flex justify-center p-1">
+                <div class="w-1 h-3 bg-white rounded-full mt-2"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Interactive Demo Modal -->
+    <div id="demoModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="hideModal('demo')">&times;</button>
+            <div class="p-8">
+                <h2 class="text-3xl font-bold mb-6 text-center">Smart Egypt Tour Guide Demo</h2>
+                <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden">
+                    <iframe class="w-full h-[500px]" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="mt-6 text-center">
+                    <h3 class="text-xl font-semibold mb-2">Experience the Future of Travel</h3>
+                    <p class="text-gray-600 mb-6">See how our AI-powered platform creates personalized travel experiences in real-time.</p>
+                    <button onclick="scrollToSection('features')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-flex items-center">
+                        Explore Features <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Features Section -->
+    <section class="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-gradient-to-r from-amber-500 to-yellow-400 text-white text-sm font-semibold px-4 py-1 rounded-full mb-4">New Features</span>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4 egyptian-heading">Experience Egypt Like Never Before</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto text-lg egyptian-subheading">Discover our latest innovations designed to make your Egyptian adventure truly unforgettable</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- VR Tours -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCardModal('vr-tours')">
+                    <div class="feature-icon bg-gradient-to-br from-purple-100 to-purple-50 text-purple-600">
+                        <i class="fas fa-vr-cardboard text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">VR Temple Tours</h3>
+                    <p class="text-gray-600 text-center mb-4">Explore ancient temples in virtual reality before you visit. Get a 360° preview of historical sites.</p>
+                    <div class="text-center">
+                        <button class="text-purple-600 hover:text-purple-800 font-medium text-sm inline-flex items-center">
+                            Experience VR <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Local Experiences -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCardModal('local-experiences')">
+                    <div class="feature-icon bg-gradient-to-br from-green-100 to-green-50 text-green-600">
+                        <i class="fas fa-hands-helping text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Local Experiences</h3>
+                    <p class="text-gray-600 text-center mb-4">Book authentic experiences with local experts. From cooking classes to traditional crafts.</p>
+                    <div class="text-center">
+                        <button class="text-green-600 hover:text-green-800 font-medium text-sm inline-flex items-center">
+                            Discover More <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Weather Integration -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCardModal('weather')">
+                    <div class="feature-icon bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600">
+                        <i class="fas fa-cloud-sun text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Smart Weather</h3>
+                    <p class="text-gray-600 text-center mb-4">Real-time weather updates and smart suggestions based on current conditions.</p>
+                    <div class="flex justify-center items-center text-blue-600">
+                        <span class="text-2xl font-bold mr-2">28°C</span>
+                        <span class="text-sm">Sunny in Cairo</span>
+                    </div>
+                </div>
+
+                <!-- Language Assistant -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCardModal('translator')">
+                    <div class="feature-icon bg-gradient-to-br from-red-100 to-red-50 text-red-600">
+                        <i class="fas fa-language text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">AI Translator</h3>
+                    <p class="text-gray-600 text-center mb-4">Real-time translation of signs, menus, and conversations. Speak naturally and be understood.</p>
+                    <div class="flex justify-center">
+                        <div class="bg-gray-100 rounded-full px-4 py-1 text-sm text-gray-700">
+                            <i class="fas fa-microphone text-red-500 mr-2"></i>
+                            Try saying: "How much is this?"
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Services -->
+    <section class="py-16 bg-gradient-to-r from-red-50 to-white relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4 egyptian-heading">Your Safety is Our Priority</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Quick access to emergency services and important contacts</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-red-400 to-red-600 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center text-red-600 text-2xl mx-auto mb-4">
+                        <i class="fas fa-ambulance"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Medical Emergency</h3>
+                    <p class="text-gray-600 mb-4">Immediate access to hospitals and medical services</p>
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded-full transition duration-200" onclick="showCardModal('medical-emergency')">
+                        <i class="fas fa-phone-alt mr-2"></i> Call 123
+                    </button>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-2xl mx-auto mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Tourist Police</h3>
+                    <p class="text-gray-600 mb-4">24/7 support for tourists in multiple languages</p>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-full transition duration-200" onclick="showCardModal('tourist-police')">
+                        <i class="fas fa-phone-alt mr-2"></i> Call 126
+                    </button>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-2xl mx-auto mb-4">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Tourist Support</h3>
+                    <p class="text-gray-600 mb-4">Assistance with lost items, documents, and general help</p>
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-6 rounded-full transition duration-200" onclick="showCardModal('tourist-support')">
+                        <i class="fas fa-headset mr-2"></i> Chat Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem & Solution -->
+    <section id="features" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Revolutionizing Tourism in Egypt</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="p-6 bg-gray-50 rounded-xl">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">The Challenge</h3>
+                    <p class="text-gray-600 mb-4">Tourists visiting Egypt often face difficulties in:</p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                            <span>Planning efficient itineraries</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                            <span>Finding reliable local guides</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                            <span>Navigating language barriers</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                            <span>Discovering authentic local experiences</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="p-6 bg-blue-50 rounded-xl">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Our Solution</h3>
+                    <p class="text-gray-600 mb-4">Smart Egypt Tour Guide provides:</p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>AI-powered personalized itineraries</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Verified local guides and services</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Real-time translation and assistance</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Curated local experiences</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section id="features" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-1 rounded-full mb-4">Core Features</span>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Everything You Need for the Perfect Egyptian Adventure</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto text-lg">Our platform combines cutting-edge technology with local expertise to deliver an unforgettable travel experience</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6 rounded-full"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showItineraryGenerator()">
+                    <div class="feature-icon bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600">
+                        <i class="fas fa-robot text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">AI Itinerary Generator</h3>
+                    <p class="text-gray-600 text-center mb-4">Get a personalized daily plan that adapts to your interests, budget, and time constraints.</p>
+                    <div class="text-center">
+                        <span class="inline-flex items-center text-blue-600 font-medium text-sm">
+                            See it in action <i class="fas fa-arrow-right ml-1"></i>
+                        </span>
+                    </div>
+                    <div class="mt-4 h-40 bg-gray-100 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=400&fit=crop" alt="AI Itinerary" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCardModal('interactive-map')">
+                    <div class="feature-icon bg-gradient-to-br from-green-100 to-green-50 text-green-600">
+                        <i class="fas fa-map-marked-alt text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Interactive Map</h3>
+                    <p class="text-gray-600 text-center mb-4">Explore Egypt with our detailed maps, real-time navigation, and location-based recommendations.</p>
+                    <div class="text-center">
+                        <span class="inline-flex items-center text-green-600 font-medium text-sm">
+                            Explore now <i class="fas fa-arrow-right ml-1"></i>
+                        </span>
+                    </div>
+                    <div class="mt-4 h-40 bg-gray-100 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1506929562872-b021dc186a4a?w=800&h=400&fit=crop" alt="Interactive Map" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showAIChatbot()">
+                    <div class="feature-icon bg-gradient-to-br from-purple-100 to-purple-50 text-purple-600">
+                        <i class="fas fa-comments text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">AI Travel Assistant</h3>
+                    <p class="text-gray-600 text-center mb-4">Get instant answers to all your travel questions, 24/7, with our intelligent chatbot.</p>
+                    <div class="text-center">
+                        <span class="inline-flex items-center text-purple-600 font-medium text-sm">
+                            Chat with AI <i class="fas fa-arrow-right ml-1"></i>
+                        </span>
+                    </div>
+                    <div class="mt-4 h-40 bg-gray-100 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=400&fit=crop" alt="AI Assistant" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCardModal('food-dining')">
+                    <div class="feature-icon bg-gradient-to-br from-yellow-100 to-yellow-50 text-yellow-600">
+                        <i class="fas fa-utensils text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Food & Dining</h3>
+                    <p class="text-gray-600 text-center mb-4">Discover authentic Egyptian cuisine and international dining options with our curated selection.</p>
+                    <div class="text-center">
+                        <span class="inline-flex items-center text-yellow-600 font-medium text-sm">
+                            Find restaurants <i class="fas fa-arrow-right ml-1"></i>
+                        </span>
+                    </div>
+                    <div class="mt-4 h-40 bg-gray-100 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=400&fit=crop" alt="Food & Dining" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCardModal('medical-tourism')">
+                    <div class="feature-icon bg-gradient-to-br from-red-100 to-red-50 text-red-600">
+                        <i class="fas fa-stethoscope text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Medical Tourism</h3>
+                    <p class="text-gray-600 text-center mb-4">Access world-class healthcare facilities and specialized treatments in Egypt's top medical centers.</p>
+                    <div class="text-center">
+                        <span class="inline-flex items-center text-red-600 font-medium text-sm">
+                            Learn more <i class="fas fa-arrow-right ml-1"></i>
+                        </span>
+                    </div>
+                    <div class="mt-4 h-40 bg-gray-100 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800&h=400&fit=crop" alt="Medical Tourism" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 cursor-pointer" onclick="showCardModal('seamless-booking')">
+                    <div class="feature-icon bg-gradient-to-br from-indigo-100 to-indigo-50 text-indigo-600">
+                        <i class="fas fa-wallet text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3 text-gray-800">Seamless Booking</h3>
+                    <p class="text-gray-600 text-center mb-4">Book tours, hotels, and services with our secure, easy-to-use booking system.</p>
+                    <div class="text-center">
+                        <span class="inline-flex items-center text-indigo-600 font-medium text-sm">
+                            Start booking <i class="fas fa-arrow-right ml-1"></i>
+                        </span>
+                    </div>
+                    <div class="mt-4 h-40 bg-gray-100 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551806235-a91de2ccd10f?w=800&h=400&fit=crop" alt="Booking" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature Modals -->
+            <div id="featureModals">
+                <!-- Itinerary Modal -->
+                <div id="itineraryModal" class="modal">
+                    <div class="modal-content max-w-4xl">
+                        <button class="close-modal" onclick="hideModal('itinerary')">&times;</button>
+                        <div class="p-8">
+                            <div class="flex items-center mb-6">
+                                <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mr-4">
+                                    <i class="fas fa-robot text-2xl"></i>
+                                </div>
+                                <h2 class="text-3xl font-bold">AI Itinerary Generator</h2>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-4">Your Perfect Day in Cairo</h3>
+                                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                                        <div class="p-4 bg-gray-50 border-b border-gray-200">
+                                            <div class="flex justify-between items-center">
+                                                <span class="font-semibold">Day 1: Historic Cairo</span>
+                                                <span class="text-sm text-gray-500">8:00 AM - 10:00 PM</span>
+                                            </div>
+                                        </div>
+                                        <div class="divide-y divide-gray-100">
+                                            <div class="p-4 hover:bg-blue-50 transition-colors cursor-pointer">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3">
+                                                        <i class="fas fa-utensils"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium">Breakfast at El Horreya</div>
+                                                        <div class="text-sm text-gray-500">8:00 AM - 9:00 AM</div>
+                                                        <div class="text-sm text-gray-500 flex items-center mt-1">
+                                                            <i class="fas fa-map-marker-alt text-red-500 mr-1"></i>
+                                                            0.3 miles from your hotel
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-4 hover:bg-blue-50 transition-colors cursor-pointer">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3">
+                                                        <i class="fas fa-monument"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium">Pyramids of Giza</div>
+                                                        <div class="text-sm text-gray-500">9:30 AM - 12:30 PM</div>
+                                                        <div class="text-sm text-gray-500 flex items-center mt-1">
+                                                            <i class="fas fa-walking text-blue-500 mr-1"></i>
+                                                            15 min by car
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-4 hover:bg-blue-50 transition-colors cursor-pointer">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3">
+                                                        <i class="fas fa-utensils"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium">Lunch at 9 Pyramids Lounge</div>
+                                                        <div class="text-sm text-gray-500">12:45 PM - 2:00 PM</div>
+                                                        <div class="text-sm text-gray-500 flex items-center mt-1">
+                                                            <i class="fas fa-map-marker-alt text-red-500 mr-1"></i>
+                                                            With pyramid view
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-4 hover:bg-blue-50 transition-colors cursor-pointer">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3">
+                                                        <i class="fas fa-museum"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium">Egyptian Museum</div>
+                                                        <div class="text-sm text-gray-500">3:00 PM - 5:00 PM</div>
+                                                        <div class="text-sm text-gray-500 flex items-center mt-1">
+                                                            <i class="fas fa-ticket-alt text-green-500 mr-1"></i>
+                                                            Skip-the-line tickets available
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-4 hover:bg-blue-50 transition-colors cursor-pointer">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3">
+                                                        <i class="fas fa-shopping-bag"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium">Khan El Khalili Bazaar</div>
+                                                        <div class="text-sm text-gray-500">5:30 PM - 7:30 PM</div>
+                                                        <div class="text-sm text-gray-500 flex items-center mt-1">
+                                                            <i class="fas fa-info-circle text-yellow-500 mr-1"></i>
+                                                            Great for souvenirs and local crafts
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-4 hover:bg-blue-50 transition-colors cursor-pointer">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3">
+                                                        <i class="fas fa-utensils"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium">Dinner at Naguib Mahfouz Cafe</div>
+                                                        <div class="text-sm text-gray-500">8:00 PM - 10:00 PM</div>
+                                                        <div class="text-sm text-gray-500 flex items-center mt-1">
+                                                            <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                                            4.7/5 (1,200+ reviews)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-4">Customize Your Itinerary</h3>
+                                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                                        <div class="flex items-center mb-4">
+                                            <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+                                                <i class="fas fa-sliders-h"></i>
+                                            </div>
+                                            <h4 class="text-lg font-semibold">Adjust Preferences</h4>
+                                        </div>
+                                        <div class="space-y-4">
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-1">Pace</label>
+                                                <div class="flex items-center space-x-4">
+                                                    <span class="text-sm text-gray-500">Relaxed</span>
+                                                    <div class="flex-1">
+                                                        <input type="range" min="1" max="5" value="3" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                                    </div>
+                                                    <span class="text-sm text-gray-500">Packed</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-1">Budget</label>
+                                                <div class="flex items-center space-x-4">
+                                                    <span class="text-sm text-gray-500">$</span>
+                                                    <div class="flex-1">
+                                                        <input type="range" min="1" max="5" value="3" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                                    </div>
+                                                    <span class="text-sm text-gray-500">$$$$$</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">Interests</label>
+                                                <div class="flex flex-wrap gap-2">
+                                                    <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full flex items-center">
+                                                        <i class="fas fa-landmark mr-1"></i> History
+                                                    </span>
+                                                    <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full flex items-center">
+                                                        <i class="fas fa-utensils mr-1"></i> Food
+                                                    </span>
+                                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full flex items-center">
+                                                        <i class="fas fa-camera mr-1"></i> Photography
+                                                    </span>
+                                                    <span class="px-3 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full flex items-center">
+                                                        <i class="fas fa-shopping-bag mr-1"></i> Shopping
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                                            Regenerate Itinerary
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-lightbulb text-yellow-500 text-xl"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm text-yellow-700">
+                                                    <span class="font-medium">Pro Tip:</span> Our AI learns from your preferences. The more you use the app, the better it gets at suggesting activities you'll love!
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                        <h4 class="font-semibold mb-3">Need a guide?</h4>
+                                        <p class="text-sm text-gray-600 mb-4">Enhance your experience with a certified local guide who can provide deeper insights into Egypt's rich history and culture.</p>
+                                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 flex items-center justify-center">
+                                            <i class="fas fa-user-tie mr-2"></i> Book a Local Guide
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other modals would be added here with similar structure -->
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">How It Works</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Get your personalized Egypt experience in just a few simple steps</p>
+                <div class="w-24 h-1 bg-blue-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-2xl mx-auto mb-4">1</div>
+                    <h3 class="text-lg font-semibold mb-2">Tell Us About Your Trip</h3>
+                    <p class="text-gray-600 text-sm">Share your travel dates, interests, and preferences</p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-2xl mx-auto mb-4">2</div>
+                    <h3 class="text-lg font-semibold mb-2">Get Your AI-Powered Itinerary</h3>
+                    <p class="text-gray-600 text-sm">Receive a personalized schedule tailored just for you</p>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-2xl mx-auto mb-4">3</div>
+                    <h3 class="text-lg font-semibold mb-2">Customize Your Experience</h3>
+                    <p class="text-gray-600 text-sm">Add, remove, or modify activities to your liking</p>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-2xl mx-auto mb-4">4</div>
+                    <h3 class="text-lg font-semibold mb-2">Enjoy Your Trip</h3>
+                    <p class="text-gray-600 text-sm">Access your itinerary, maps, and support on the go</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+        <div class="hieroglyphic-pattern"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-gradient-to-r from-amber-500 to-yellow-400 text-white text-sm font-semibold px-4 py-1 rounded-full mb-4">Explore Egypt</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 egyptian-heading">Popular Destinations</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto text-lg egyptian-subheading">Discover the wonders of Egypt, from ancient pyramids to vibrant cities and stunning coastlines</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto mt-6 rounded-full"></div>
+            </div>
+            
+            <div class="destinations-grid grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Destinations will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Experiences Section -->
+    <section id="experiences" class="py-20 bg-white relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-semibold px-4 py-1 rounded-full mb-4">Unique Experiences</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 egyptian-heading">Unforgettable Adventures</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto text-lg egyptian-subheading">From luxury cruises to desert safaris, experience Egypt in ways you never imagined</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto mt-6 rounded-full"></div>
+            </div>
+            
+            <div class="experiences-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Experiences will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="gradient-bg text-white py-20 relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-0 w-full h-full opacity-5">
+            <div class="absolute top-1/4 left-1/4 text-6xl text-white floating">𓃭</div>
+            <div class="absolute bottom-1/3 right-1/4 text-7xl text-white floating-2">𓂀</div>
+            <div class="absolute top-1/3 right-1/3 text-5xl text-white floating-3">𓆣</div>
+        </div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h2 class="text-4xl font-bold mb-6 egyptian-heading">Ready to Experience Egypt Like Never Before?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto egyptian-subheading">Join thousands of travelers who have discovered the magic of Egypt with our smart tour guide</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6 max-w-2xl mx-auto">
+                <button class="bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                    <i class="fab fa-apple"></i> Download on App Store
+                </button>
+                <button class="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                    <i class="fab fa-google-play"></i> Get it on Google Play
+                </button>
+            </div>
+            
+            <div class="mt-8 flex flex-wrap justify-center gap-6">
+                <div class="flex items-center">
+                    <div class="text-3xl mr-2">⭐️</div>
+                    <div class="text-left">
+                        <div class="font-bold">4.9/5</div>
+                        <div class="text-sm opacity-80">App Store Rating</div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="text-3xl mr-2">🌍</div>
+                    <div class="text-left">
+                        <div class="font-bold">50,000+</div>
+                        <div class="text-sm opacity-80">Happy Travelers</div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="text-3xl mr-2">🏆</div>
+                    <div class="text-left">
+                        <div class="font-bold">Award Winning</div>
+                        <div class="text-sm opacity-80">Best Travel App 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute bottom-0 right-0 text-6xl text-gray-800 opacity-20">
+            <span class="hieroglyphic-decoration">𓃭</span>
+            <span class="hieroglyphic-decoration">𓂀</span>
+            <span class="hieroglyphic-decoration">𓆣</span>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 egyptian-heading">Smart Egypt</h3>
+                    <p class="text-gray-400 mb-4">Your intelligent companion for discovering Egypt's ancient wonders and modern marvels.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300 text-xl">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300 text-xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300 text-xl">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300 text-xl">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 border-b border-gray-800 pb-2">Explore</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Popular Destinations</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Cultural Experiences</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Adventure Tours</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Luxury Travel</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Medical Tourism</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 border-b border-gray-800 pb-2">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Safety Information</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Cancellation Options</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Report Issue</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Emergency Contacts</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <p class="text-gray-400 text-sm">&copy; 2025 Smart Egypt Tour Guide. All rights reserved.</p>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Privacy Policy</a>
+                        <span class="text-gray-600">•</span>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Terms of Service</a>
+                        <span class="text-gray-600">•</span>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Sitemap</a>
+                        <span class="text-gray-600">•</span>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Accessibility</a>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-center md:text-left">
+                    <p class="text-xs text-gray-500">Smart Egypt Tour Guide is not responsible for content on external websites. The information provided is for general informational purposes only.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+        <div class="hieroglyphic-pattern"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-semibold px-4 py-1 rounded-full mb-4">Get In Touch</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 egyptian-heading">Contact Us</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg egyptian-subheading">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-400 to-blue-600 mx-auto mt-6 rounded-full"></div>
+    </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Contact Information -->
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-6">Let's Connect</h3>
+                            <p class="text-gray-600 mb-8">Whether you're planning your trip or need assistance during your journey, we're here to help.</p>
+            </div>
+            
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-envelope text-blue-600 text-xl"></i>
+                                </div>
+                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-1">Email</h4>
+                                    <p class="text-gray-600">info@egyptguide.com</p>
+                                    <p class="text-gray-600">support@egyptguide.com</p>
+                                </div>
+                </div>
+                
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-phone text-green-600 text-xl"></i>
+                                </div>
+                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-1">Phone</h4>
+                                    <p class="text-gray-600">+20 2 1234 5678</p>
+                                    <p class="text-gray-600">+20 2 9876 5432</p>
+                                </div>
+                </div>
+                
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-purple-600 text-xl"></i>
+                                </div>
+                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-1">Address</h4>
+                                    <p class="text-gray-600">123 Nile Street, Downtown Cairo<br>Egypt 11511</p>
+                                </div>
+                    </div>
+                </div>
+                
+                        <div class="pt-6">
+                            <h4 class="font-semibold text-gray-900 mb-4">Follow Us</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center hover:bg-blue-700 transition">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-pink-600 text-white rounded-lg flex items-center justify-center hover:bg-pink-700 transition">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-blue-400 text-white rounded-lg flex items-center justify-center hover:bg-blue-500 transition">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-red-600 text-white rounded-lg flex items-center justify-center hover:bg-red-700 transition">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                        <form class="space-y-6" id="contactForm">
+                <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="contactName">Name</label>
+                                <input type="text" id="contactName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="Your name" required>
+                            </div>
+                            
+                        <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="contactEmail">Email</label>
+                                <input type="email" id="contactEmail" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="your.email@example.com" required>
+                        </div>
+                            
+                        <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="contactSubject">Subject</label>
+                                <input type="text" id="contactSubject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="How can we help?" required>
+                </div>
+                
+                <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="contactMessage">Message</label>
+                                <textarea id="contactMessage" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none" placeholder="Tell us more about your inquiry..." required></textarea>
+                </div>
+                
+                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition transform hover:scale-105 shadow-lg">
+                                Send Message <i class="fas fa-paper-plane ml-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hieroglyphic Decorative Elements -->
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
+        <div class="hieroglyphic-bg"></div>
+        <div class="hieroglyphic-pattern"></div>
+        <div class="hieroglyph" style="top: 10%; left: 5%; font-size: 4rem;">𓂀</div>
+        <div class="hieroglyph" style="top: 20%; right: 8%; font-size: 3rem;">𓃭</div>
+        <div class="hieroglyph" style="bottom: 15%; left: 7%; font-size: 5rem;">𓅓</div>
+        <div class="hieroglyph" style="bottom: 25%; right: 5%; font-size: 4rem;">𓆣</div>
+        <div class="hieroglyph" style="top: 40%; left: 3%; font-size: 6rem; opacity: 0.1;">𓅭</div>
+        <div class="hieroglyph" style="top: 60%; right: 10%; font-size: 7rem; opacity: 0.08;">𓆎</div>
+        <div class="hieroglyph" style="bottom: 10%; left: 50%; font-size: 8rem; opacity: 0.07;">𓂋</div>
+        <div class="hieroglyph" style="top: 15%; left: 40%; font-size: 5rem; opacity: 0.15;">𓃀</div>
+    </div>
+
+
+    <!-- Custom Schedule Modal -->
+    <div id="scheduleModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Your Custom Egypt Itinerary</h2>
+                <button onclick="closeModal('scheduleModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div id="customItinerary" class="space-y-6">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+            
+            <div class="mt-8 flex justify-end space-x-4">
+                <button onclick="closeModal('scheduleModal')" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Close
+                </button>
+                <button onclick="saveItinerary()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Save Itinerary
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            }
+        }
+        
+        // Generate custom itinerary based on interests
+        function generateCustomItinerary(interests) {
+            const itineraryContainer = document.getElementById('customItinerary');
+            let itineraryHTML = '';
+            
+            // Example itinerary based on interests
+            const days = [
+                {
+                    title: 'Day 1: Arrival in Cairo',
+                    activities: [
+                        'Arrive at Cairo International Airport',
+                        'Check into your hotel in downtown Cairo',
+                        'Evening: Welcome dinner at a traditional Egyptian restaurant'
+                    ]
+                },
+                {
+                    title: 'Day 2: Pyramids and Sphinx',
+                    activities: [
+                        'Morning: Visit the Great Pyramids of Giza',
+                        'Explore the Sphinx and Valley Temple',
+                        'Afternoon: Egyptian Museum',
+                        'Evening: Sound and Light show at the Pyramids'
+                    ]
+                }
+            ];
+            
+            // Add interest-specific activities
+            if (interests.includes('history')) {
+                days.push({
+                    title: 'Day 3: Ancient Egypt',
+                    activities: [
+                        'Full-day tour of Saqqara and Memphis',
+                        'Visit the Step Pyramid of Djoser',
+                        'Explore the ruins of ancient Memphis',
+                        'Optional: Evening lecture on Ancient Egyptian history'
+                    ]
+                });
+            }
+            
+            if (interests.includes('culture')) {
+                days.push({
+                    title: interests.includes('history') ? 'Day 4: Local Culture' : 'Day 3: Local Culture',
+                    activities: [
+                        'Visit Khan el-Khalili bazaar',
+                        'Coffee at El-Fishawi Cafe',
+                        'Traditional Egyptian cooking class',
+                        'Evening: Whirling Dervish show'
+                    ]
+                });
+            }
+            
+            // Generate HTML for each day
+            days.forEach((day, index) => {
+                itineraryHTML += `
+                    <div class="border-l-4 border-blue-500 pl-4 py-2 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">${day.title}</h3>
+                        <ul class="space-y-2">
+                            ${day.activities.map(activity => 
+                                `<li class="flex items-start">
+                                    <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                                        <i class="fas fa-check text-xs"></i>
+                                    </span>
+                                    <span>${activity}</span>
+                                </li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            });
+            
+            // Add recommendations section
+            itineraryHTML += `
+                <div class="bg-blue-50 p-6 rounded-xl mt-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Personalized Recommendations</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        ${generateRecommendations(interests)}
+                    </div>
+                </div>
+            `;
+            
+            itineraryContainer.innerHTML = itineraryHTML;
+        }
+        
+        // Generate recommendations based on interests
+        function generateRecommendations(interests) {
+            const recommendations = [];
+            
+            if (interests.includes('history')) {
+                recommendations.push({
+                    icon: 'landmark',
+                    title: 'Historical Sites',
+                    items: ['Citadel of Saladin', 'Coptic Cairo', 'Alexandria Library']
+                });
+            }
+            
+            if (interests.includes('food')) {
+                recommendations.push({
+                    icon: 'utensils',
+                    title: 'Dining Experiences',
+                    items: ['Nile dinner cruise', 'Koshari Abou Tarek', 'Khan El Khalili street food tour']
+                });
+            }
+            
+            if (interests.includes('adventure')) {
+                recommendations.push({
+                    icon: 'hiking',
+                    title: 'Adventure Activities',
+                    items: ['Camel ride in the desert', 'Snorkeling in Dahab', 'Quad biking by the Pyramids']
+                });
+            }
+            
+            // Add default recommendations if none match
+            if (recommendations.length === 0) {
+                recommendations.push({
+                    icon: 'star',
+                    title: 'Must-See Attractions',
+                    items: ['Great Pyramids of Giza', 'Egyptian Museum', 'Khan el-Khalili Bazaar']
+                });
+            }
+            
+            return recommendations.map(rec => `
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-${rec.icon}"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800">${rec.title}</h4>
+                    </div>
+                    <ul class="space-y-2">
+                        ${rec.items.map(item => `<li class="flex items-center text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            ${item}
+                        </li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+        
+        function saveItinerary() {
+            // In a real app, this would save to a database
+            alert('Your custom itinerary has been saved to your account!');
+            closeModal('scheduleModal');
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('fixed')) {
+                event.target.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        };
+
+        // Comprehensive mock data for all cards and buttons
+        const cardMockData = {
+            'vr-tours': {
+                title: 'VR Temple Tours',
+                icon: 'fa-vr-cardboard',
+                iconColor: 'purple',
+                image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=2000&h=1200&fit=crop',
+                description: 'Experience ancient Egyptian temples in stunning virtual reality before your visit. Get a 360° immersive preview of historical sites.',
+                details: [
+                    'Explore Karnak Temple in VR',
+                    'Virtual tour of Abu Simbel',
+                    '360° view of Luxor Temple',
+                    'Interactive hieroglyphic decoder',
+                    'Historical context and stories'
+                ],
+                features: [
+                    { icon: 'fa-vr-cardboard', text: 'Full VR Experience' },
+                    { icon: 'fa-headset', text: '360° Views' },
+                    { icon: 'fa-info-circle', text: 'Historical Context' },
+                    { icon: 'fa-mobile-alt', text: 'Mobile Compatible' }
+                ],
+                price: 'Free with app',
+                rating: 4.9,
+                reviews: 1247
+            },
+            'local-experiences': {
+                title: 'Local Experiences',
+                icon: 'fa-hands-helping',
+                iconColor: 'green',
+                image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=2000&h=1200&fit=crop',
+                description: 'Book authentic experiences with local experts. From cooking classes to traditional crafts, immerse yourself in Egyptian culture.',
+                details: [
+                    'Traditional Egyptian Cooking Class - Learn to make Koshari and Falafel',
+                    'Nubian Village Visit - Experience local culture and traditions',
+                    'Papyrus Making Workshop - Create your own ancient art',
+                    'Felucca Sailing on the Nile - Traditional boat experience',
+                    'Camel Trekking in the Desert - Authentic Bedouin experience'
+                ],
+                features: [
+                    { icon: 'fa-user-tie', text: 'Local Guides' },
+                    { icon: 'fa-star', text: 'Verified Experiences' },
+                    { icon: 'fa-clock', text: 'Flexible Timing' },
+                    { icon: 'fa-language', text: 'Multi-language Support' }
+                ],
+                price: 'From $25',
+                rating: 4.8,
+                reviews: 892
+            },
+            'weather': {
+                title: 'Smart Weather Integration',
+                icon: 'fa-cloud-sun',
+                iconColor: 'blue',
+                image: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=2000&h=1200&fit=crop',
+                description: 'Real-time weather updates and smart suggestions based on current conditions. Plan your activities perfectly.',
+                details: [
+                    'Current: 28°C - Sunny in Cairo',
+                    'Tomorrow: 26°C - Partly Cloudy',
+                    'Best time to visit Pyramids: 8:00 AM - 10:00 AM',
+                    'Recommended: Light clothing, sunscreen, hat',
+                    'UV Index: High (8) - Seek shade during midday'
+                ],
+                features: [
+                    { icon: 'fa-cloud-sun', text: 'Real-time Updates' },
+                    { icon: 'fa-lightbulb', text: 'Smart Suggestions' },
+                    { icon: 'fa-calendar', text: '7-Day Forecast' },
+                    { icon: 'fa-bell', text: 'Weather Alerts' }
+                ],
+                price: 'Free',
+                rating: 4.7,
+                reviews: 2156
+            },
+            'translator': {
+                title: 'AI Real-Time Translator',
+                icon: 'fa-language',
+                iconColor: 'red',
+                image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=2000&h=1200&fit=crop',
+                description: 'Real-time translation of signs, menus, and conversations. Speak naturally and be understood instantly.',
+                details: [
+                    'Translate text from images - Point camera at signs or menus',
+                    'Voice translation - Speak and get instant translation',
+                    'Offline mode - Works without internet',
+                    'Supports 50+ languages including Arabic, English, French',
+                    'Cultural context included - Understand local expressions'
+                ],
+                features: [
+                    { icon: 'fa-camera', text: 'Image Translation' },
+                    { icon: 'fa-microphone', text: 'Voice Translation' },
+                    { icon: 'fa-wifi', text: 'Offline Mode' },
+                    { icon: 'fa-globe', text: '50+ Languages' }
+                ],
+                price: 'Free',
+                rating: 4.9,
+                reviews: 3456
+            },
+            'medical-emergency': {
+                title: 'Medical Emergency Services',
+                icon: 'fa-ambulance',
+                iconColor: 'red',
+                image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=2000&h=1200&fit=crop',
+                description: 'Immediate access to hospitals and medical services. Your safety is our priority.',
+                details: [
+                    'Emergency Hotline: 123 (24/7)',
+                    'Nearest Hospital: Cairo University Hospital - 2.3 km away',
+                    'Tourist Medical Centers: Available in all major cities',
+                    'English-speaking doctors available',
+                    'Insurance accepted at most facilities'
+                ],
+                features: [
+                    { icon: 'fa-phone', text: '24/7 Hotline' },
+                    { icon: 'fa-hospital', text: 'Hospital Locator' },
+                    { icon: 'fa-user-md', text: 'English Doctors' },
+                    { icon: 'fa-shield-alt', text: 'Insurance Support' }
+                ],
+                phone: '123',
+                rating: 4.8,
+                reviews: 567
+            },
+            'tourist-police': {
+                title: 'Tourist Police Support',
+                icon: 'fa-shield-alt',
+                iconColor: 'blue',
+                image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=2000&h=1200&fit=crop',
+                description: '24/7 support for tourists in multiple languages. Specialized police force dedicated to tourist safety.',
+                details: [
+                    'Emergency Hotline: 126 (24/7)',
+                    'Tourist Police Stations: Located near all major attractions',
+                    'Multi-language support: English, French, German, Spanish',
+                    'Lost and found services',
+                    'Travel document assistance'
+                ],
+                features: [
+                    { icon: 'fa-phone', text: '24/7 Support' },
+                    { icon: 'fa-language', text: 'Multi-language' },
+                    { icon: 'fa-map-marker-alt', text: 'Station Locator' },
+                    { icon: 'fa-file-alt', text: 'Document Help' }
+                ],
+                phone: '126',
+                rating: 4.7,
+                reviews: 1234
+            },
+            'tourist-support': {
+                title: 'Tourist Support Center',
+                icon: 'fa-hands-helping',
+                iconColor: 'amber',
+                image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=2000&h=1200&fit=crop',
+                description: 'Assistance with lost items, documents, and general help. We\'re here to make your trip smooth.',
+                details: [
+                    'Live Chat Support: Available 24/7',
+                    'Lost Item Recovery: Report and track lost belongings',
+                    'Travel Information: Maps, guides, recommendations',
+                    'Booking Assistance: Help with tours and activities',
+                    'Cultural Tips: Do\'s and don\'ts for tourists'
+                ],
+                features: [
+                    { icon: 'fa-comments', text: 'Live Chat' },
+                    { icon: 'fa-search', text: 'Lost & Found' },
+                    { icon: 'fa-info-circle', text: 'Travel Info' },
+                    { icon: 'fa-calendar-check', text: 'Booking Help' }
+                ],
+                price: 'Free',
+                rating: 4.8,
+                reviews: 2345
+            },
+            'destination-cairo': {
+                title: 'Cairo - The City of a Thousand Minarets',
+                icon: 'fa-city',
+                iconColor: 'blue',
+                image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=2000&h=1200&fit=crop',
+                description: 'Explore the vibrant capital of Egypt, home to ancient wonders and modern marvels. From the Pyramids of Giza to bustling bazaars, Cairo offers an unforgettable experience.',
+                details: [
+                    'Great Pyramids of Giza - One of the Seven Wonders',
+                    'Egyptian Museum - Home to Tutankhamun\'s treasures',
+                    'Khan El-Khalili Bazaar - Historic market district',
+                    'Islamic Cairo - Medieval architecture and mosques',
+                    'Nile River - Take a felucca ride at sunset'
+                ],
+                features: [
+                    { icon: 'fa-monument', text: 'Ancient Wonders' },
+                    { icon: 'fa-museum', text: 'World-Class Museums' },
+                    { icon: 'fa-shopping-bag', text: 'Historic Markets' },
+                    { icon: 'fa-utensils', text: 'Amazing Cuisine' }
+                ],
+                price: 'Free to explore',
+                rating: 4.9,
+                reviews: 15234
+            },
+            'destination-luxor': {
+                title: 'Luxor - The World\'s Greatest Open-Air Museum',
+                icon: 'fa-monument',
+                iconColor: 'amber',
+                image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+                description: 'Discover the ancient city of Thebes, where pharaohs built magnificent temples and tombs. Luxor is home to some of Egypt\'s most spectacular archaeological sites.',
+                details: [
+                    'Valley of the Kings - Royal tombs including Tutankhamun',
+                    'Karnak Temple Complex - Largest ancient religious site',
+                    'Luxor Temple - Beautifully preserved temple on the Nile',
+                    'Hot Air Balloon Rides - Sunrise over the Valley of the Kings',
+                    'Luxor Museum - Artifacts from the Theban area'
+                ],
+                features: [
+                    { icon: 'fa-landmark', text: 'Ancient Temples' },
+                    { icon: 'fa-tomb', text: 'Royal Tombs' },
+                    { icon: 'fa-camera', text: 'Stunning Views' },
+                    { icon: 'fa-history', text: 'Rich History' }
+                ],
+                price: 'From $50',
+                rating: 4.8,
+                reviews: 8934
+            },
+            'destination-aswan': {
+                title: 'Aswan - Gateway to Nubia',
+                icon: 'fa-water',
+                iconColor: 'blue',
+                image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=2000&h=1200&fit=crop',
+                description: 'Experience the beauty of the Nile in Aswan, known for its stunning scenery, Nubian culture, and proximity to the magnificent Abu Simbel temples.',
+                details: [
+                    'Abu Simbel Temples - Ramesses II\'s colossal monuments',
+                    'Philae Temple - Island temple dedicated to Isis',
+                    'Nile River Cruises - Scenic journey to Luxor',
+                    'Nubian Villages - Experience local culture',
+                    'Aswan High Dam - Modern engineering marvel'
+                ],
+                features: [
+                    { icon: 'fa-water', text: 'Nile Views' },
+                    { icon: 'fa-users', text: 'Nubian Culture' },
+                    { icon: 'fa-ship', text: 'River Cruises' },
+                    { icon: 'fa-temple', text: 'Ancient Temples' }
+                ],
+                price: 'From $40',
+                rating: 4.7,
+                reviews: 5678
+            },
+            'destination-alexandria': {
+                title: 'Alexandria - The Mediterranean Pearl',
+                icon: 'fa-water',
+                iconColor: 'blue',
+                image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+                description: 'Discover the Mediterranean charm of Alexandria, a city rich in history, culture, and beautiful coastal views.',
+                details: [
+                    'Bibliotheca Alexandrina - Modern library honoring ancient heritage',
+                    'Citadel of Qaitbay - 15th-century fortress on the sea',
+                    'Montaza Palace - Royal gardens and beaches',
+                    'Catacombs of Kom el Shoqafa - Ancient burial site',
+                    'Corniche - Beautiful waterfront promenade'
+                ],
+                features: [
+                    { icon: 'fa-book', text: 'Historic Library' },
+                    { icon: 'fa-umbrella-beach', text: 'Beaches' },
+                    { icon: 'fa-fish', text: 'Seafood Cuisine' },
+                    { icon: 'fa-building', text: 'Historic Sites' }
+                ],
+                price: 'Free to explore',
+                rating: 4.6,
+                reviews: 4567
+            },
+            'experience-nile-cruise': {
+                title: 'Nile River Cruise - Luxor to Aswan',
+                icon: 'fa-ship',
+                iconColor: 'blue',
+                image: 'https://images.unsplash.com/photo-1566438488257-1f2f3c4d8e1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+                description: 'Embark on a luxurious 4-day cruise along the Nile River, visiting ancient temples and experiencing the timeless beauty of Egypt.',
+                details: [
+                    '5-star accommodation with river views',
+                    'All meals included (breakfast, lunch, dinner)',
+                    'Guided tours of Edfu and Kom Ombo temples',
+                    'Evening entertainment and cultural shows',
+                    'Professional Egyptologist guide',
+                    'Sunset felucca ride in Aswan'
+                ],
+                features: [
+                    { icon: 'fa-bed', text: '5-Star Accommodation' },
+                    { icon: 'fa-utensils', text: 'All Meals Included' },
+                    { icon: 'fa-user-tie', text: 'Expert Guide' },
+                    { icon: 'fa-camera', text: 'Scenic Views' }
+                ],
+                price: '$1,200 per person',
+                rating: 4.8,
+                reviews: 124
+            },
+            'experience-desert-safari': {
+                title: 'White Desert Safari Adventure',
+                icon: 'fa-mountain',
+                iconColor: 'amber',
+                image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=2000&h=1200&fit=crop',
+                description: 'Experience the magic of Egypt\'s White Desert with an overnight camping adventure under the stars.',
+                details: [
+                    '4x4 desert safari through unique rock formations',
+                    'Overnight camping in the White Desert',
+                    'Traditional Bedouin dinner and breakfast',
+                    'Stargazing with telescope provided',
+                    'Sunrise photography session',
+                    'Professional guide and safety equipment'
+                ],
+                features: [
+                    { icon: 'fa-campground', text: 'Desert Camping' },
+                    { icon: 'fa-star', text: 'Stargazing' },
+                    { icon: 'fa-camera', text: 'Photography' },
+                    { icon: 'fa-fire', text: 'Bedouin Experience' }
+                ],
+                price: '$350 per person',
+                rating: 4.9,
+                reviews: 89
+            },
+            'experience-food-tour': {
+                title: 'Cairo Food Tour - Authentic Egyptian Cuisine',
+                icon: 'fa-utensils',
+                iconColor: 'red',
+                image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+                description: 'Taste your way through Cairo\'s culinary scene, from street food to traditional restaurants, with a local food expert.',
+                details: [
+                    'Visit 6-8 local food spots and restaurants',
+                    'Taste traditional dishes: Koshari, Falafel, Shawarma',
+                    'Learn about Egyptian food culture and history',
+                    'Visit Khan El-Khalili market food stalls',
+                    'Try authentic Egyptian desserts and tea',
+                    'Small group tour (max 12 people)'
+                ],
+                features: [
+                    { icon: 'fa-utensils', text: '6-8 Food Stops' },
+                    { icon: 'fa-user-tie', text: 'Local Guide' },
+                    { icon: 'fa-users', text: 'Small Groups' },
+                    { icon: 'fa-heart', text: 'Cultural Experience' }
+                ],
+                price: '$75 per person',
+                rating: 4.7,
+                reviews: 156
+            },
+            'ai-itinerary': {
+                title: 'AI Itinerary Generator',
+                icon: 'fa-robot',
+                iconColor: 'blue',
+                image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=2000&h=1200&fit=crop',
+                description: 'Get a personalized daily plan that adapts to your interests, budget, and time constraints. Our AI creates the perfect itinerary just for you.',
+                details: [
+                    'Personalized daily schedules based on your preferences',
+                    'Budget optimization - get the most value for your money',
+                    'Time-efficient routing - minimize travel time between attractions',
+                    'Weather-aware suggestions - adjust plans based on conditions',
+                    'Real-time updates and modifications',
+                    'Integration with booking system for seamless reservations'
+                ],
+                features: [
+                    { icon: 'fa-brain', text: 'AI-Powered Planning' },
+                    { icon: 'fa-dollar-sign', text: 'Budget Optimization' },
+                    { icon: 'fa-route', text: 'Smart Routing' },
+                    { icon: 'fa-sync', text: 'Real-time Updates' }
+                ],
+                price: 'Free',
+                rating: 4.9,
+                reviews: 5234
+            },
+            'interactive-map': {
+                title: 'Interactive Map & Navigation',
+                icon: 'fa-map-marked-alt',
+                iconColor: 'green',
+                image: 'https://images.unsplash.com/photo-1506929562872-b021dc186a4a?w=2000&h=1200&fit=crop',
+                description: 'Explore Egypt with our detailed maps, real-time navigation, and location-based recommendations. Never get lost, always discover something new.',
+                details: [
+                    'Offline maps - download and use without internet',
+                    'Real-time GPS navigation with turn-by-turn directions',
+                    'Points of interest marked with photos and reviews',
+                    'Custom markers for your saved locations',
+                    'Traffic updates and alternative routes',
+                    'Public transportation integration'
+                ],
+                features: [
+                    { icon: 'fa-map', text: 'Detailed Maps' },
+                    { icon: 'fa-location-arrow', text: 'GPS Navigation' },
+                    { icon: 'fa-wifi', text: 'Offline Mode' },
+                    { icon: 'fa-subway', text: 'Transit Info' }
+                ],
+                price: 'Free',
+                rating: 4.8,
+                reviews: 4123,
+                isInteractive: true
+            },
+            'food-dining': {
+                title: 'Food & Dining Guide',
+                icon: 'fa-utensils',
+                iconColor: 'yellow',
+                image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=2000&h=1200&fit=crop',
+                description: 'Discover authentic Egyptian cuisine and international dining options with our curated selection. From street food to fine dining, find your perfect meal.',
+                details: [
+                    'Curated restaurant recommendations by locals',
+                    'Menu translations and dietary information',
+                    'Price ranges and reservation options',
+                    'Street food guides with safety tips',
+                    'Cooking class bookings',
+                    'Food tour experiences'
+                ],
+                features: [
+                    { icon: 'fa-star', text: 'Curated Listings' },
+                    { icon: 'fa-language', text: 'Menu Translation' },
+                    { icon: 'fa-calendar', text: 'Reservations' },
+                    { icon: 'fa-utensils', text: 'Food Tours' }
+                ],
+                price: 'Free',
+                rating: 4.7,
+                reviews: 3456
+            },
+            'medical-tourism': {
+                title: 'Medical Tourism Services',
+                icon: 'fa-stethoscope',
+                iconColor: 'red',
+                image: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=2000&h=1200&fit=crop',
+                description: 'Access world-class healthcare facilities and specialized treatments in Egypt\'s top medical centers. Quality care at affordable prices.',
+                details: [
+                    'Verified hospitals and clinics with international standards',
+                    'Specialized treatments: dental, cosmetic, fertility, cardiac',
+                    'Medical visa assistance and travel arrangements',
+                    'English-speaking medical staff',
+                    'Post-treatment recovery packages',
+                    'Transparent pricing and no hidden costs'
+                ],
+                features: [
+                    { icon: 'fa-hospital', text: 'Verified Facilities' },
+                    { icon: 'fa-user-md', text: 'Expert Doctors' },
+                    { icon: 'fa-file-alt', text: 'Visa Assistance' },
+                    { icon: 'fa-dollar-sign', text: 'Affordable Prices' }
+                ],
+                price: 'Consultation required',
+                rating: 4.8,
+                reviews: 1234
+            },
+            'seamless-booking': {
+                title: 'Seamless Booking System',
+                icon: 'fa-wallet',
+                iconColor: 'indigo',
+                image: 'https://images.unsplash.com/photo-1551806235-a91de2ccd10f?w=2000&h=1200&fit=crop',
+                description: 'Book tours, hotels, and services with our secure, easy-to-use booking system. Multiple payment options and instant confirmations.',
+                details: [
+                    'One-click booking for tours, hotels, and activities',
+                    'Secure payment processing with multiple options',
+                    'Instant confirmation and e-tickets',
+                    'Flexible cancellation policies',
+                    'Price comparison across providers',
+                    'Loyalty rewards and discounts'
+                ],
+                features: [
+                    { icon: 'fa-lock', text: 'Secure Payments' },
+                    { icon: 'fa-check-circle', text: 'Instant Confirmation' },
+                    { icon: 'fa-undo', text: 'Easy Cancellation' },
+                    { icon: 'fa-gift', text: 'Rewards Program' }
+                ],
+                price: 'No booking fees',
+                rating: 4.9,
+                reviews: 6789,
+                isInteractive: true
+            },
+            'experience-nile-cruise': {
+                title: 'Nile River Cruise - Luxor to Aswan',
+                icon: 'fa-ship',
+                iconColor: 'blue',
+                image: 'https://images.unsplash.com/photo-1566438488257-1f2f3c4d8e1b?w=2000&h=1200&fit=crop',
+                description: 'Embark on a luxurious 4-day cruise along the Nile River, visiting ancient temples and experiencing the timeless beauty of Egypt.',
+                details: [
+                    '5-star accommodation with river views',
+                    'All meals included (breakfast, lunch, dinner)',
+                    'Guided tours of Edfu and Kom Ombo temples',
+                    'Evening entertainment and cultural shows',
+                    'Professional Egyptologist guide',
+                    'Sunset felucca ride in Aswan'
+                ],
+                features: [
+                    { icon: 'fa-bed', text: '5-Star Accommodation' },
+                    { icon: 'fa-utensils', text: 'All Meals Included' },
+                    { icon: 'fa-user-tie', text: 'Expert Guide' },
+                    { icon: 'fa-camera', text: 'Scenic Views' }
+                ],
+                price: '$1,200 per person',
+                rating: 4.8,
+                reviews: 124,
+                isInteractive: true
+            }
+        };
+
+        // AI Chatbot Modal
+        function showAIChatbot() {
+            const chatbotHTML = `
+                <div id="aiChatbotModal" class="modal show">
+                    <div class="modal-content max-w-2xl">
+                        <button class="close-modal" onclick="hideModal('aiChatbot')">&times;</button>
+                        <div class="p-6">
+                            <div class="flex items-center mb-6">
+                                <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mr-4">
+                                    <i class="fas fa-robot text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-2xl font-bold text-gray-900">AI Travel Assistant</h2>
+                                    <p class="text-sm text-gray-500">Online • Ready to help</p>
+                                </div>
+                            </div>
+
+                            <div id="chatbotMessages" class="bg-gray-50 rounded-lg p-4 h-96 overflow-y-auto mb-4 space-y-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-robot text-sm"></i>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 shadow-sm max-w-xs">
+                                        <p class="text-gray-800">Hello! I'm your AI travel assistant. How can I help you plan your Egyptian adventure today?</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex space-x-2">
+                                <input type="text" id="chatbotInput" placeholder="Ask me anything about Egypt..." class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" onkeypress="handleChatbotKeyPress(event)">
+                                <button onclick="sendChatbotMessage()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition duration-200">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <button onclick="sendQuickMessage('What are the best places to visit in Cairo?')" class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm hover:bg-purple-100 transition">
+                                    Best places in Cairo
+                                </button>
+                                <button onclick="sendQuickMessage('What is the best time to visit Egypt?')" class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm hover:bg-purple-100 transition">
+                                    Best time to visit
+                                </button>
+                                <button onclick="sendQuickMessage('How much does a trip to Egypt cost?')" class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm hover:bg-purple-100 transition">
+                                    Trip costs
+                                </button>
+                                <button onclick="sendQuickMessage('What should I pack for Egypt?')" class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm hover:bg-purple-100 transition">
+                                    What to pack
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const existingModal = document.getElementById('aiChatbotModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            document.body.insertAdjacentHTML('beforeend', chatbotHTML);
+            document.body.style.overflow = 'hidden';
+            document.getElementById('chatbotInput').focus();
+        }
+
+        // Chatbot responses
+        const chatbotResponses = {
+            'cairo': 'Cairo is amazing! Top places include: 1) Great Pyramids of Giza - one of the Seven Wonders, 2) Egyptian Museum - home to Tutankhamun\'s treasures, 3) Khan El-Khalili Bazaar - historic market, 4) Islamic Cairo - beautiful mosques and architecture, 5) Nile River cruises. Would you like details on any specific place?',
+            'time': 'The best time to visit Egypt is from October to April when the weather is mild. Peak season is December-February. Summer (May-September) is very hot but less crowded. I recommend October-November or March-April for the best balance of weather and crowds!',
+            'cost': 'Egypt is very affordable! Budget travelers can spend $30-50/day, mid-range $80-150/day, and luxury $200+/day. This includes accommodation, food, and activities. A 7-day trip typically costs $500-2000 depending on your style. Would you like a detailed breakdown?',
+            'pack': 'Pack light, breathable clothing (cotton/linen), comfortable walking shoes, sun protection (hat, sunscreen, sunglasses), a scarf for mosques, modest clothing for religious sites, and a camera! The weather is generally warm, so layers work best. Need a complete packing list?',
+            'default': 'That\'s a great question! I can help you with: travel planning, itinerary suggestions, local recommendations, cultural tips, booking assistance, and more. What specific aspect of your Egypt trip would you like to know about?'
+        };
+
+        function sendChatbotMessage() {
+            const input = document.getElementById('chatbotInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            addChatMessage(message, 'user');
+            input.value = '';
+
+            // Simulate AI thinking
+            setTimeout(() => {
+                const response = generateChatbotResponse(message);
+                addChatMessage(response, 'bot');
+            }, 1000);
+        }
+
+        function sendQuickMessage(message) {
+            document.getElementById('chatbotInput').value = message;
+            sendChatbotMessage();
+        }
+
+        function handleChatbotKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatbotMessage();
+            }
+        }
+
+        function addChatMessage(message, sender) {
+            const messagesContainer = document.getElementById('chatbotMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex items-start space-x-3 ${sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`;
+            
+            const icon = sender === 'user' 
+                ? '<i class="fas fa-user text-sm"></i>'
+                : '<i class="fas fa-robot text-sm"></i>';
+            const bgColor = sender === 'user' ? 'bg-purple-600 text-white' : 'bg-white';
+            const iconBg = sender === 'user' ? 'bg-purple-600' : 'bg-purple-100 text-purple-600';
+
+            messageDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full ${iconBg} flex items-center justify-center flex-shrink-0">
+                    ${icon}
+                </div>
+                <div class="${bgColor} rounded-lg p-3 shadow-sm max-w-xs">
+                    <p class="${sender === 'user' ? 'text-white' : 'text-gray-800'}">${message}</p>
+                </div>
+            `;
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function generateChatbotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('cairo') || lowerMessage.includes('best place')) {
+                return chatbotResponses.cairo;
+            } else if (lowerMessage.includes('time') || lowerMessage.includes('when')) {
+                return chatbotResponses.time;
+            } else if (lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('budget')) {
+                return chatbotResponses.cost;
+            } else if (lowerMessage.includes('pack') || lowerMessage.includes('bring') || lowerMessage.includes('clothing')) {
+                return chatbotResponses.pack;
+            } else {
+                return chatbotResponses.default;
+            }
+        }
+
+        // AI Itinerary Generator - Interactive Form
+        function showItineraryGenerator() {
+            const itineraryHTML = `
+                <div id="itineraryModal" class="modal show">
+                    <div class="modal-content max-w-5xl">
+                        <button class="close-modal" onclick="hideModal('itinerary')">&times;</button>
+                        <div class="p-8">
+                            <div class="flex items-center mb-6">
+                                <div class="w-16 h-16 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mr-4">
+                                    <i class="fas fa-robot text-3xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-3xl font-bold text-gray-900">AI Itinerary Generator</h2>
+                                    <p class="text-gray-600">Create your personalized Egypt travel plan</p>
+                                </div>
+                            </div>
+
+                            <div id="itineraryFormContainer">
+                                <form id="itineraryForm" class="space-y-6">
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">Travel Dates</label>
+                                            <div class="grid grid-cols-2 gap-3">
+                                                <div>
+                                                    <label class="block text-sm text-gray-500 mb-1">Start Date</label>
+                                                    <input type="date" id="startDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm text-gray-500 mb-1">End Date</label>
+                                                    <input type="date" id="endDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">Number of Travelers</label>
+                                            <select id="travelers" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                                                <option value="1">1 Traveler</option>
+                                                <option value="2" selected>2 Travelers</option>
+                                                <option value="3">3 Travelers</option>
+                                                <option value="4">4 Travelers</option>
+                                                <option value="5+">5+ Travelers</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-3">Travel Interests (Select all that apply)</label>
+                                        <div class="grid md:grid-cols-3 gap-3">
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="interests" value="history" class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700"><i class="fas fa-landmark mr-2"></i>History & Archaeology</span>
+                                            </label>
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="interests" value="culture" class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700"><i class="fas fa-users mr-2"></i>Local Culture</span>
+                                            </label>
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="interests" value="food" class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700"><i class="fas fa-utensils mr-2"></i>Food & Dining</span>
+                                            </label>
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="interests" value="adventure" class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700"><i class="fas fa-hiking mr-2"></i>Adventure</span>
+                                            </label>
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="interests" value="nature" class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700"><i class="fas fa-mountain mr-2"></i>Nature & Wildlife</span>
+                                            </label>
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="interests" value="shopping" class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700"><i class="fas fa-shopping-bag mr-2"></i>Shopping</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">Budget Range</label>
+                                            <select id="budget" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                                                <option value="budget">Budget ($30-50/day)</option>
+                                                <option value="mid" selected>Mid-range ($80-150/day)</option>
+                                                <option value="luxury">Luxury ($200+/day)</option>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">Travel Pace</label>
+                                            <select id="pace" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                                                <option value="relaxed">Relaxed (Fewer activities)</option>
+                                                <option value="moderate" selected>Moderate (Balanced)</option>
+                                                <option value="packed">Packed (Maximum activities)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Preferred Destinations (Select all)</label>
+                                        <div class="grid md:grid-cols-4 gap-3">
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="destinations" value="cairo" checked class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700">Cairo</span>
+                                            </label>
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="destinations" value="luxor" class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700">Luxor</span>
+                                            </label>
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="destinations" value="aswan" class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700">Aswan</span>
+                                            </label>
+                                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
+                                                <input type="checkbox" name="destinations" value="alexandria" class="rounded text-blue-600 mr-2">
+                                                <span class="text-gray-700">Alexandria</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg transition duration-200 flex items-center justify-center">
+                                        <i class="fas fa-magic mr-2"></i> Generate My Itinerary
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div id="itineraryResult" class="hidden">
+                                <!-- Generated itinerary will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const existingModal = document.getElementById('itineraryModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            document.body.insertAdjacentHTML('beforeend', itineraryHTML);
+            document.body.style.overflow = 'hidden';
+
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').min = today;
+            document.getElementById('endDate').min = today;
+
+            // Handle form submission
+            document.getElementById('itineraryForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                generateItinerary();
+            });
+        }
+
+        function generateItinerary() {
+            const form = document.getElementById('itineraryForm');
+            const formData = new FormData(form);
+            
+            const startDate = new Date(document.getElementById('startDate').value);
+            const endDate = new Date(document.getElementById('endDate').value);
+            const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            
+            const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(cb => cb.value);
+            const destinations = Array.from(document.querySelectorAll('input[name="destinations"]:checked')).map(cb => cb.value);
+            const budget = document.getElementById('budget').value;
+            const pace = document.getElementById('pace').value;
+            const travelers = document.getElementById('travelers').value;
+
+            // Generate itinerary based on inputs
+            const itinerary = createItinerary(days, interests, destinations, budget, pace, travelers, startDate);
+            
+            // Hide form and show results
+            document.getElementById('itineraryFormContainer').classList.add('hidden');
+            document.getElementById('itineraryResult').classList.remove('hidden');
+            document.getElementById('itineraryResult').innerHTML = itinerary;
+        }
+
+        function createItinerary(days, interests, destinations, budget, pace, travelers, startDate) {
+            const activities = {
+                cairo: {
+                    history: [
+                        { time: '08:00', name: 'Great Pyramids of Giza', duration: '3h', image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?w=400&h=300&fit=crop' },
+                        { time: '14:00', name: 'Egyptian Museum', duration: '2h', image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=400&h=300&fit=crop' },
+                        { time: '17:00', name: 'Khan El-Khalili Bazaar', duration: '2h', image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=400&h=300&fit=crop' }
+                    ],
+                    food: [
+                        { time: '12:00', name: 'Koshari Abou Tarek', duration: '1h', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=300&fit=crop' },
+                        { time: '19:00', name: 'Nile Dinner Cruise', duration: '3h', image: 'https://images.unsplash.com/photo-1566438488257-1f2f3c4d8e1b?w=400&h=300&fit=crop' }
+                    ],
+                    culture: [
+                        { time: '10:00', name: 'Islamic Cairo Tour', duration: '3h', image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=400&h=300&fit=crop' },
+                        { time: '15:00', name: 'Coptic Cairo', duration: '2h', image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=400&h=300&fit=crop' }
+                    ]
+                },
+                luxor: {
+                    history: [
+                        { time: '06:00', name: 'Hot Air Balloon Ride', duration: '1h', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop' },
+                        { time: '09:00', name: 'Valley of the Kings', duration: '3h', image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?w=400&h=300&fit=crop' },
+                        { time: '14:00', name: 'Karnak Temple', duration: '2h', image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?w=400&h=300&fit=crop' }
+                    ]
+                },
+                aswan: {
+                    history: [
+                        { time: '08:00', name: 'Abu Simbel Temples', duration: '4h', image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=400&h=300&fit=crop' },
+                        { time: '14:00', name: 'Philae Temple', duration: '2h', image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=400&h=300&fit=crop' }
+                    ]
+                }
+            };
+
+            let itineraryHTML = `
+                <div class="mb-6">
+                    <button onclick="document.getElementById('itineraryFormContainer').classList.remove('hidden'); document.getElementById('itineraryResult').classList.add('hidden');" class="text-blue-600 hover:text-blue-800 font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i> Edit Preferences
+                    </button>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Your Personalized ${days}-Day Egypt Itinerary</h3>
+                <div class="space-y-6">
+            `;
+
+            for (let day = 1; day <= days && day <= 7; day++) {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + day - 1);
+                const dateStr = currentDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                
+                const dest = destinations[Math.min(day - 1, destinations.length - 1)] || 'cairo';
+                const dayActivities = [];
+                
+                if (interests.includes('history') && activities[dest]?.history) {
+                    dayActivities.push(...activities[dest].history.slice(0, pace === 'packed' ? 3 : pace === 'moderate' ? 2 : 1));
+                }
+                if (interests.includes('food') && activities[dest]?.food) {
+                    dayActivities.push(activities[dest].food[0]);
+                }
+                if (interests.includes('culture') && activities[dest]?.culture) {
+                    dayActivities.push(activities[dest].culture[0]);
+                }
+
+                if (dayActivities.length === 0) {
+                    dayActivities.push({ time: '10:00', name: 'Explore ' + dest.charAt(0).toUpperCase() + dest.slice(1), duration: '4h', image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=400&h=300&fit=crop' });
+                }
+
+                itineraryHTML += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-gray-900">Day ${day}: ${dest.charAt(0).toUpperCase() + dest.slice(1)}</h4>
+                            <span class="text-gray-500 text-sm">${dateStr}</span>
+                        </div>
+                        <div class="space-y-4">
+                            ${dayActivities.map(activity => `
+                                <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+                                    <img src="${activity.image}" alt="${activity.name}" class="w-24 h-24 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="font-semibold text-gray-900">${activity.name}</span>
+                                            <span class="text-blue-600 font-medium">${activity.time}</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600"><i class="far fa-clock mr-1"></i> Duration: ${activity.duration}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            itineraryHTML += `
+                </div>
+                <div class="mt-6 p-6 bg-blue-50 rounded-xl">
+                    <h4 class="font-bold text-gray-900 mb-2">Estimated Budget</h4>
+                    <p class="text-gray-700">Based on ${budget} budget for ${travelers} traveler(s): $${calculateBudget(days, budget, travelers)}</p>
+                </div>
+                <button onclick="window.print()" class="mt-4 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                    <i class="fas fa-print mr-2"></i> Print Itinerary
+                </button>
+            `;
+
+            return itineraryHTML;
+        }
+
+        function calculateBudget(days, budget, travelers) {
+            const dailyRates = { budget: 40, mid: 115, luxury: 250 };
+            const rate = dailyRates[budget] || 115;
+            return (days * rate * parseInt(travelers)).toLocaleString();
+        }
+
+        // Interactive Map Modal
+        function showInteractiveMap() {
+            const mapHTML = `
+                <div id="mapModal" class="modal show">
+                    <div class="modal-content max-w-6xl">
+                        <button class="close-modal" onclick="hideModal('map')">&times;</button>
+                        <div class="p-8">
+                            <div class="flex items-center mb-6">
+                                <div class="w-16 h-16 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marked-alt text-3xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-3xl font-bold text-gray-900">Interactive Map & Navigation</h2>
+                                    <p class="text-gray-600">Explore Egypt with detailed maps</p>
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                                <div class="md:col-span-2">
+                                    <div class="bg-gray-200 rounded-xl h-96 flex items-center justify-center relative overflow-hidden">
+                                        <img src="https://images.unsplash.com/photo-1506929562872-b021dc186a4a?w=1200&h=800&fit=crop" alt="Egypt Map" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                                            <div class="text-center text-white">
+                                                <i class="fas fa-map-marked-alt text-6xl mb-4"></i>
+                                                <p class="text-xl font-semibold">Interactive Map View</p>
+                                                <p class="text-sm mt-2">Click on markers to explore</p>
+                                            </div>
+                                        </div>
+                                        <!-- Map Markers -->
+                                        <div class="absolute top-1/4 left-1/3 w-8 h-8 bg-red-500 rounded-full border-4 border-white cursor-pointer hover:scale-125 transition" title="Pyramids of Giza" onclick="showMapLocation('Pyramids of Giza')"></div>
+                                        <div class="absolute top-1/2 left-1/2 w-8 h-8 bg-blue-500 rounded-full border-4 border-white cursor-pointer hover:scale-125 transition" title="Egyptian Museum" onclick="showMapLocation('Egyptian Museum')"></div>
+                                        <div class="absolute bottom-1/4 right-1/4 w-8 h-8 bg-green-500 rounded-full border-4 border-white cursor-pointer hover:scale-125 transition" title="Khan El-Khalili" onclick="showMapLocation('Khan El-Khalili')"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold mb-4">Popular Locations</h3>
+                                    <div class="space-y-3">
+                                        <div class="p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-green-50 transition" onclick="showMapLocation('Pyramids of Giza')">
+                                            <div class="flex items-center">
+                                                <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                                                <span class="font-medium">Pyramids of Giza</span>
+                                            </div>
+                                            <p class="text-sm text-gray-600 mt-1">Giza, Cairo</p>
+                                        </div>
+                                        <div class="p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-green-50 transition" onclick="showMapLocation('Egyptian Museum')">
+                                            <div class="flex items-center">
+                                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                                                <span class="font-medium">Egyptian Museum</span>
+                                            </div>
+                                            <p class="text-sm text-gray-600 mt-1">Tahrir Square, Cairo</p>
+                                        </div>
+                                        <div class="p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-green-50 transition" onclick="showMapLocation('Khan El-Khalili')">
+                                            <div class="flex items-center">
+                                                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                                                <span class="font-medium">Khan El-Khalili</span>
+                                            </div>
+                                            <p class="text-sm text-gray-600 mt-1">Islamic Cairo</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6 p-4 bg-green-50 rounded-lg">
+                                        <h4 class="font-semibold mb-2">Map Features</h4>
+                                        <ul class="text-sm space-y-1 text-gray-700">
+                                            <li><i class="fas fa-check text-green-600 mr-2"></i>Offline maps available</li>
+                                            <li><i class="fas fa-check text-green-600 mr-2"></i>GPS navigation</li>
+                                            <li><i class="fas fa-check text-green-600 mr-2"></i>Real-time traffic</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const existingModal = document.getElementById('mapModal');
+            if (existingModal) existingModal.remove();
+            document.body.insertAdjacentHTML('beforeend', mapHTML);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showMapLocation(location) {
+            alert(`Location: ${location}\n\nThis is an interactive map feature. In the full app, you would see:\n- Detailed information about ${location}\n- Directions and navigation\n- Photos and reviews\n- Nearby attractions`);
+        }
+
+        // Seamless Booking System Modal
+        function showBookingSystem() {
+            const bookingHTML = `
+                <div id="bookingModal" class="modal show">
+                    <div class="modal-content max-w-4xl">
+                        <button class="close-modal" onclick="hideModal('booking')">&times;</button>
+                        <div class="p-8">
+                            <div class="flex items-center mb-6">
+                                <div class="w-16 h-16 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mr-4">
+                                    <i class="fas fa-wallet text-3xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-3xl font-bold text-gray-900">Seamless Booking System</h2>
+                                    <p class="text-gray-600">Book tours, hotels, and services</p>
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-4">What would you like to book?</h3>
+                                    <div class="space-y-3">
+                                        <button onclick="showBookingForm('tour')" class="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition text-left">
+                                            <i class="fas fa-map-marked-alt text-indigo-600 text-xl mb-2"></i>
+                                            <div class="font-semibold">Tours & Activities</div>
+                                            <div class="text-sm text-gray-600">Pyramids tours, Nile cruises, and more</div>
+                                        </button>
+                                        <button onclick="showBookingForm('hotel')" class="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition text-left">
+                                            <i class="fas fa-hotel text-indigo-600 text-xl mb-2"></i>
+                                            <div class="font-semibold">Hotels & Accommodation</div>
+                                            <div class="text-sm text-gray-600">Find the perfect place to stay</div>
+                                        </button>
+                                        <button onclick="showBookingForm('guide')" class="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition text-left">
+                                            <i class="fas fa-user-tie text-indigo-600 text-xl mb-2"></i>
+                                            <div class="font-semibold">Local Guides</div>
+                                            <div class="text-sm text-gray-600">Expert guides for your journey</div>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="bookingFormContainer">
+                                    <div class="bg-gray-50 rounded-lg p-6 text-center">
+                                        <i class="fas fa-hand-pointer text-4xl text-gray-400 mb-4"></i>
+                                        <p class="text-gray-600">Select a booking option to continue</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const existingModal = document.getElementById('bookingModal');
+            if (existingModal) existingModal.remove();
+            document.body.insertAdjacentHTML('beforeend', bookingHTML);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showBookingForm(type) {
+            const forms = {
+                tour: {
+                    title: 'Book a Tour',
+                    options: ['Pyramids of Giza Tour - $50', 'Nile Dinner Cruise - $75', 'Egyptian Museum Tour - $40', 'Full Day Cairo Tour - $120']
+                },
+                hotel: {
+                    title: 'Book a Hotel',
+                    options: ['Luxury Hotel Downtown - $150/night', 'Boutique Hotel - $80/night', 'Budget Hotel - $40/night', 'Resort by the Nile - $200/night']
+                },
+                guide: {
+                    title: 'Book a Guide',
+                    options: ['English Speaking Guide - $100/day', 'Archaeologist Guide - $150/day', 'Photography Guide - $120/day', 'Food Tour Guide - $80/day']
+                }
+            };
+
+            const form = forms[type];
+            const formHTML = `
+                <div class="bg-white rounded-lg p-6 border-2 border-indigo-200">
+                    <h4 class="font-bold text-lg mb-4">${form.title}</h4>
+                    <div class="space-y-3 mb-4">
+                        ${form.options.map(option => `
+                            <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-indigo-50">
+                                <input type="radio" name="bookingOption" value="${option}" class="mr-3">
+                                <span>${option}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div class="space-y-3">
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Select Date">
+                        <input type="number" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Number of Guests" min="1">
+                        <button onclick="completeBooking('${type}')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                            Complete Booking
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('bookingFormContainer').innerHTML = formHTML;
+        }
+
+        function completeBooking(type) {
+            const selected = document.querySelector('input[name="bookingOption"]:checked');
+            if (selected) {
+                alert(`Booking Confirmed!\n\n${selected.value}\n\nYour booking has been confirmed. You will receive a confirmation email shortly.`);
+                hideModal('booking');
+            } else {
+                alert('Please select an option first.');
+            }
+        }
+
+        // Nile Cruise Booking Modal
+        function showNileCruiseBooking() {
+            const cruiseHTML = `
+                <div id="cruiseModal" class="modal show">
+                    <div class="modal-content max-w-5xl">
+                        <button class="close-modal" onclick="hideModal('cruise')">&times;</button>
+                        <div class="p-8">
+                            <div class="flex items-center mb-6">
+                                <div class="w-16 h-16 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mr-4">
+                                    <i class="fas fa-ship text-3xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-3xl font-bold text-gray-900">Nile River Cruise - Luxor to Aswan</h2>
+                                    <div class="flex items-center mt-2">
+                                        <div class="flex text-yellow-400">★★★★☆</div>
+                                        <span class="ml-2 text-gray-600">4.8 (124 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <img src="https://images.unsplash.com/photo-1566438488257-1f2f3c4d8e1b?w=1200&h=600&fit=crop" alt="Nile Cruise" class="w-full h-64 object-cover rounded-xl shadow-lg">
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-4">Cruise Details</h3>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                            <span>5-star accommodation with river views</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                            <span>All meals included (breakfast, lunch, dinner)</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                            <span>Guided tours of Edfu and Kom Ombo temples</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                            <span>Evening entertainment and cultural shows</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                            <span>Professional Egyptologist guide</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                            <span>Sunset felucca ride in Aswan</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-4">Book Your Cruise</h3>
+                                    <form id="cruiseBookingForm" class="space-y-4">
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">Departure Date</label>
+                                            <input type="date" id="cruiseDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">Number of Guests</label>
+                                            <select id="cruiseGuests" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                                                <option value="1">1 Guest</option>
+                                                <option value="2" selected>2 Guests</option>
+                                                <option value="3">3 Guests</option>
+                                                <option value="4">4 Guests</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 font-medium mb-2">Cabin Type</label>
+                                            <select id="cabinType" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                                                <option value="standard">Standard Cabin - $1,200/person</option>
+                                                <option value="deluxe">Deluxe Cabin - $1,500/person</option>
+                                                <option value="suite">Suite - $2,000/person</option>
+                                            </select>
+                                        </div>
+                                        <div class="p-4 bg-blue-50 rounded-lg">
+                                            <div class="flex justify-between items-center mb-2">
+                                                <span class="font-semibold">Total Price:</span>
+                                                <span class="text-2xl font-bold text-blue-600" id="cruiseTotal">$2,400</span>
+                                            </div>
+                                            <p class="text-sm text-gray-600">4 days / 3 nights</p>
+                                        </div>
+                                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                                            <i class="fas fa-credit-card mr-2"></i> Book Now
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const existingModal = document.getElementById('cruiseModal');
+            if (existingModal) existingModal.remove();
+            document.body.insertAdjacentHTML('beforeend', cruiseHTML);
+            document.body.style.overflow = 'hidden';
+
+            // Set minimum date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('cruiseDate').min = today;
+
+            // Calculate total on change
+            document.getElementById('cruiseGuests').addEventListener('change', calculateCruiseTotal);
+            document.getElementById('cabinType').addEventListener('change', calculateCruiseTotal);
+
+            // Handle form submission
+            document.getElementById('cruiseBookingForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Cruise Booking Confirmed!\n\nYou will receive a confirmation email with all details. Thank you for booking with us!');
+                hideModal('cruise');
+            });
+        }
+
+        function calculateCruiseTotal() {
+            const guests = parseInt(document.getElementById('cruiseGuests').value);
+            const cabin = document.getElementById('cabinType').value;
+            const prices = { standard: 1200, deluxe: 1500, suite: 2000 };
+            const total = guests * prices[cabin];
+            document.getElementById('cruiseTotal').textContent = '$' + total.toLocaleString();
+        }
+
+        // Universal function to show card modal with mock data
+        function showCardModal(cardId) {
+            // Special handling for AI Itinerary
+            if (cardId === 'ai-itinerary') {
+                showItineraryGenerator();
+                return;
+            }
+            
+            // Special handling for Interactive Map
+            if (cardId === 'interactive-map') {
+                showInteractiveMap();
+                return;
+            }
+            
+            // Special handling for Seamless Booking
+            if (cardId === 'seamless-booking') {
+                showBookingSystem();
+                return;
+            }
+            
+            // Special handling for Nile Cruise
+            if (cardId === 'experience-nile-cruise') {
+                showNileCruiseBooking();
+                return;
+            }
+            
+            const data = cardMockData[cardId];
+            if (!data) return;
+
+            // Create modal HTML
+            const modalHTML = `
+                <div id="cardModal" class="modal show">
+                    <div class="modal-content max-w-4xl">
+                        <button class="close-modal" onclick="hideModal('card')">&times;</button>
+                        <div class="p-8">
+                            <div class="flex items-center mb-6">
+                                <div class="w-16 h-16 rounded-xl bg-${data.iconColor}-100 text-${data.iconColor}-600 flex items-center justify-center mr-4">
+                                    <i class="fas ${data.icon} text-3xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-3xl font-bold text-gray-900">${data.title}</h2>
+                                    ${data.rating ? `
+                                        <div class="flex items-center mt-2">
+                                            <div class="flex text-yellow-400">
+                                                ${'★'.repeat(Math.floor(data.rating))}${'☆'.repeat(5 - Math.floor(data.rating))}
+                                            </div>
+                                            <span class="ml-2 text-gray-600">${data.rating} (${data.reviews} reviews)</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <img src="${data.image}" alt="${data.title}" class="w-full h-64 object-cover rounded-xl shadow-lg">
+                            </div>
+
+                            <p class="text-lg text-gray-700 mb-6">${data.description}</p>
+
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Features</h3>
+                                    <div class="space-y-3">
+                                        ${data.features.map(feature => `
+                                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                                <i class="fas ${feature.icon} text-${data.iconColor}-600 text-xl mr-3"></i>
+                                                <span class="text-gray-700">${feature.text}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Details</h3>
+                                    <ul class="space-y-2">
+                                        ${data.details.map(detail => `
+                                            <li class="flex items-start p-3 bg-gray-50 rounded-lg">
+                                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                                <span class="text-gray-700">${detail}</span>
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between p-6 bg-gradient-to-r from-${data.iconColor}-50 to-${data.iconColor}-100 rounded-xl">
+                                <div>
+                                    ${data.price ? `<div class="text-2xl font-bold text-gray-900">${data.price}</div>` : ''}
+                                    ${data.phone ? `<div class="text-xl font-semibold text-gray-900">Call: ${data.phone}</div>` : ''}
+                                </div>
+                                <button class="bg-${data.iconColor}-600 hover:bg-${data.iconColor}-700 text-white font-bold py-3 px-8 rounded-lg transition duration-200 flex items-center">
+                                    ${data.phone ? '<i class="fas fa-phone mr-2"></i> Call Now' : data.price === 'Free' ? '<i class="fas fa-download mr-2"></i> Get Started' : '<i class="fas fa-bookmark mr-2"></i> Book Now'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Remove existing modal if any
+            const existingModal = document.getElementById('cardModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Enhanced mock data for all sections
+        const mockData = {
+            features: [
+                {
+                    id: 'itinerary',
+                    title: 'AI-Powered Itinerary',
+                    description: 'Personalized daily plans based on your interests and time',
+                    icon: 'robot',
+                    color: 'blue',
+                    details: {
+                        title: 'Your Personalized Egyptian Adventure',
+                        subtitle: 'AI-generated itinerary based on your preferences',
+                        highlights: [
+                            'Visit the Great Pyramids at sunrise',
+                            'Private guided tour of the Egyptian Museum',
+                            'Nile dinner cruise with traditional entertainment',
+                            'Hot air balloon ride over Luxor',
+                            'Snorkeling in the Red Sea'
+                        ],
+                        recommendations: [
+                            'Wear comfortable shoes for temple visits',
+                            'Carry water and sun protection',
+                            'Best photo spots marked on map',
+                            'Local dining recommendations included'
+                        ]
+                    }
+                },
+                {
+                    id: 'ar',
+                    title: 'AR Monuments',
+                    description: 'See ancient sites restored to their former glory in AR',
+                    icon: 'vr-cardboard',
+                    color: 'purple',
+                    details: {
+                        title: 'Augmented Reality Experience',
+                        subtitle: 'Witness history come alive before your eyes',
+                        features: [
+                            '3D reconstructions of ancient monuments',
+                            'Interactive historical figures',
+                            'Before/after comparisons',
+                            'Guided AR tours',
+                            'Photo mode with historical backdrops'
+                        ]
+                    }
+                },
+                {
+                    id: 'offline',
+                    title: 'Offline Maps',
+                    description: 'Access maps and guides without internet',
+                    icon: 'map-marked-alt',
+                    color: 'green',
+                    details: {
+                        title: 'Never Get Lost',
+                        subtitle: 'Comprehensive offline navigation',
+                        features: [
+                            'Downloadable city maps',
+                            'Offline walking directions',
+                            'Saved locations and bookmarks',
+                            'Emergency contacts and services',
+                            'Local transportation routes'
+                        ]
+                    }
+                }
+            ],
+            destinations: [
+                {
+                    id: 'cairo',
+                    name: 'Cairo',
+                    image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?w=800&h=600&fit=crop',
+                    highlights: ['Pyramids of Giza', 'Egyptian Museum', 'Khan El-Khalili']
+                },
+                {
+                    id: 'luxor',
+                    name: 'Luxor',
+                    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=600&fit=crop',
+                    highlights: ['Valley of the Kings', 'Karnak Temple', 'Luxor Temple']
+                },
+                {
+                    id: 'aswan',
+                    name: 'Aswan',
+                    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=600&fit=crop',
+                    highlights: ['Abu Simbel', 'Philae Temple', 'Nile River Cruises']
+                },
+                {
+                    id: 'alexandria',
+                    name: 'Alexandria',
+                    image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop',
+                    highlights: ['Bibliotheca Alexandrina', 'Citadel of Qaitbay', 'Montaza Palace']
+                }
+            ],
+            experiences: [
+                {
+                    id: 'nile-cruise',
+                    title: 'Nile Cruise',
+                    description: '5-star luxury cruise from Luxor to Aswan',
+                    price: '$1,200',
+                    duration: '4 days',
+                    image: 'https://images.unsplash.com/photo-1566438488257-1f2f3c4d8e1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+                    rating: 4.8,
+                    reviews: 124
+                },
+                {
+                    id: 'desert-safari',
+                    title: 'Desert Safari',
+                    description: 'Overnight camping in the White Desert',
+                    price: '$350',
+                    duration: '2 days',
+                    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=2000&h=1200&fit=crop',
+                    rating: 4.9,
+                    reviews: 89
+                },
+                {
+                    id: 'food-tour',
+                    title: 'Cairo Food Tour',
+                    description: 'Taste authentic Egyptian cuisine',
+                    price: '$75',
+                    duration: '4 hours',
+                    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=2000&h=1200&fit=crop',
+                    rating: 4.7,
+                    reviews: 156
+                }
+            ]
+        };
+
+        // Mockup images for the phone preview
+        const mockupImages = [
+            'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1000&h=2000&fit=crop',
+            'https://images.unsplash.com/photo-1506929562872-b021dc186a4a?w=1000&h=2000&fit=crop',
+            'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1000&h=2000&fit=crop'
+        ];
+        
+        // Change mockup image (kept for backward compatibility)
+        function changeMockupImage(index) {
+            const mockupScreen = document.querySelector('.mockup-screen img');
+            if (mockupScreen) {
+            mockupScreen.src = mockupImages[index];
+            mockupScreen.style.opacity = '0';
+            setTimeout(() => {
+                mockupScreen.style.transition = 'opacity 0.5s ease';
+                mockupScreen.style.opacity = '1';
+            }, 50);
+            }
+        }
+        
+        // Modal functions
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId + 'Modal');
+            if (modal) {
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId + 'Modal');
+            if (modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function showFeatureModal(feature) {
+            showModal(feature);
+        }
+        
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('hidden');
+                if (menuIcon) {
+                    if (mobileMenu.classList.contains('hidden')) {
+                        menuIcon.classList.remove('fa-times');
+                        menuIcon.classList.add('fa-bars');
+                    } else {
+                        menuIcon.classList.remove('fa-bars');
+                        menuIcon.classList.add('fa-times');
+                    }
+                }
+            }
+        }
+
+        // Navbar scroll effect
+        let lastScroll = 0;
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const currentScroll = window.pageYOffset;
+            
+            if (navbar) {
+                if (currentScroll > 100) {
+                    navbar.classList.add('shadow-xl');
+                    navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+                } else {
+                    navbar.classList.remove('shadow-xl');
+                    navbar.style.backgroundColor = '';
+                }
+            }
+            lastScroll = currentScroll;
+        });
+        
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    toggleMobileMenu();
+                }
+                // Close any open modals
+                document.querySelectorAll('.modal.show').forEach(modal => {
+                    modal.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        }
+        
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('animate-fade-in-up');
+                }
+            });
+        }
+        
+        // Populate features section with mock data
+        function populateFeatures() {
+            const featuresContainer = document.querySelector('.features-grid');
+            if (!featuresContainer) return;
+
+            mockData.features.forEach(feature => {
+                const featureHtml = `
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 cursor-pointer" 
+                         onclick="showFeatureModal('${feature.id}')">
+                        <div class="w-14 h-14 rounded-xl bg-${feature.color}-100 text-${feature.color}-600 flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-${feature.icon} text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-center mb-2 text-gray-800">${feature.title}</h3>
+                        <p class="text-gray-600 text-center">${feature.description}</p>
+                    </div>
+                `;
+                featuresContainer.innerHTML += featureHtml;
+            });
+        }
+
+        // Populate destinations section
+        function populateDestinations() {
+            const destinationsContainer = document.querySelector('.destinations-grid');
+            if (!destinationsContainer) return;
+
+            mockData.destinations.forEach(destination => {
+                const destinationHtml = `
+                    <div class="relative overflow-hidden rounded-xl group cursor-pointer" onclick="showCardModal('destination-${destination.id}')">
+                        <img src="${destination.image}" alt="${destination.name}" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                            <h3 class="text-2xl font-bold text-black mb-2">${destination.name}</h3>
+                            <div class="flex flex-wrap gap-2">
+                                ${destination.highlights.map(highlight => 
+                                    `<span class="text-xs bg-black/20 text-black px-2 py-1 rounded-full">${highlight}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                destinationsContainer.innerHTML += destinationHtml;
+            });
+        }
+
+        // Populate experiences section
+        function populateExperiences() {
+            const experiencesContainer = document.querySelector('.experiences-grid');
+            if (!experiencesContainer) return;
+
+            mockData.experiences.forEach(experience => {
+                const stars = '★'.repeat(Math.floor(experience.rating)) + '☆'.repeat(5 - Math.floor(experience.rating));
+                const experienceHtml = `
+                    <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" onclick="showCardModal('experience-${experience.id}')">
+                        <div class="relative">
+                            <img src="${experience.image}" alt="${experience.title}" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                ${experience.rating} (${experience.reviews})
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold mb-2">${experience.title}</h3>
+                            <p class="text-gray-600 mb-3">${experience.description}</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-yellow-500 font-bold">${stars}</span>
+                                <span class="text-gray-700 font-medium">${experience.duration}</span>
+                            </div>
+                            <div class="mt-4 flex justify-between items-center">
+                                <span class="text-2xl font-bold text-gray-900">${experience.price}</span>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                experiencesContainer.innerHTML += experienceHtml;
+            });
+        }
+
+        // Show feature modal with dynamic content
+        function showFeatureModal(featureId) {
+            const feature = mockData.features.find(f => f.id === featureId);
+            if (!feature) return;
+
+            const modalContent = `
+                <div class="bg-white rounded-xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-16 h-16 rounded-xl bg-${feature.color}-100 text-${feature.color}-600 flex items-center justify-center mb-4">
+                                <i class="fas fa-${feature.icon} text-3xl"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold text-gray-900">${feature.details.title}</h2>
+                            <p class="text-gray-600 mt-2">${feature.details.subtitle}</p>
+                        </div>
+                        <button class="text-gray-400 hover:text-gray-600" onclick="hideModal('feature')">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4">Highlights</h3>
+                            <ul class="space-y-3">
+                                ${feature.details.highlights ? feature.details.highlights.map(item => 
+                                    `<li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>${item}</span>
+                                    </li>`
+                                ).join('') : ''}
+                            </ul>
+                            
+                            ${feature.details.recommendations ? `
+                                <h3 class="text-xl font-semibold mt-8 mb-4">Recommendations</h3>
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <ul class="space-y-2">
+                                        ${feature.details.recommendations.map(item => 
+                                            `<li class="flex items-start">
+                                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
+                                                <span>${item}</span>
+                                            </li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div>
+                            <div class="bg-gray-100 rounded-xl p-6 h-full flex items-center justify-center">
+                                <img src="${mockupImages[Math.floor(Math.random() * mockupImages.length)]}" 
+                                     alt="${feature.title}" 
+                                     class="rounded-lg shadow-md w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-end space-x-4">
+                        <button class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                            Learn More
+                        </button>
+                        <button class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Try It Now
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const modal = document.createElement('div');
+            modal.id = 'featureModal';
+            modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50';
+            modal.innerHTML = modalContent;
+            modal.onclick = (e) => {
+                if (e.target === modal) hideModal('feature');
+            };
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Hide modal
+        function hideModal(type) {
+            if (type === 'card') {
+                const modal = document.getElementById('cardModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'aiChatbot') {
+                const modal = document.getElementById('aiChatbotModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'itinerary') {
+                const modal = document.getElementById('itineraryModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'map') {
+                const modal = document.getElementById('mapModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'booking') {
+                const modal = document.getElementById('bookingModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else if (type === 'cruise') {
+                const modal = document.getElementById('cruiseModal');
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            } else {
+                const modal = document.getElementById(`${type}Modal`);
+                if (modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        // Contact form handler
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('contactName').value;
+                const email = document.getElementById('contactEmail').value;
+                const subject = document.getElementById('contactSubject').value;
+                const message = document.getElementById('contactMessage').value;
+                
+                // Simple validation
+                if (name && email && subject && message) {
+                    // Show success message (in a real app, this would send to a server)
+                    alert('Thank you for your message! We\'ll get back to you soon.');
+                    contactForm.reset();
+                } else {
+                    alert('Please fill in all fields.');
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all data
+            populateFeatures();
+            populateDestinations();
+            populateExperiences();
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId !== '#') {
+                        scrollToSection(targetId.substring(1));
+                    }
+                });
+            });
+            
+            // Initialize first mockup button as active
+            if (document.querySelector('.mockup-btn')) {
+                document.querySelector('.mockup-btn').style.background = '#f59e0b';
+            }
+            
+            // Add scroll event listener for animations
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Initial check for elements in viewport
+            animateOnScroll();
+            
+            // Close modals when pressing ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal.show').forEach(modal => {
+                        modal.classList.remove('show');
+                        document.body.style.overflow = 'auto';
+                    });
+                    // Also close mobile menu
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        toggleMobileMenu();
+                    }
+                }
+            });
+
+            // Add reveal animations on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all reveal elements
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+        });
+        
+        // Sample data for demonstration
+        const sampleItinerary = {
+            day: 1,
+            date: '2025-12-15',
+            activities: [
+                {
+                    time: '08:00',
+                    title: 'Breakfast at El Horreya',
+                    type: 'food',
+                    location: 'Downtown Cairo',
+                    duration: '1h',
+                    price: '$$',
+                    rating: 4.5
+                },
+                {
+                    time: '09:30',
+                    title: 'Pyramids of Giza',
+                    type: 'attraction',
+                    location: 'Giza',
+                    duration: '3h',
+                    price: '$$$',
+                    rating: 4.9
+                },
+                // More sample activities...
+            ]
+        };
+    </script>
+</body>
+</html>
